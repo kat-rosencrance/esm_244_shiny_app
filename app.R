@@ -76,7 +76,7 @@ seal_reactive <- reactive({
 })
 
 output$beach_map <- renderLeaflet({
-  leaflet(data = seal_obs) %>%
+  leaflet(data = seal_reactive) %>%
     setView(lat = usaLat, lng = usaLon, zoom = usaZoom) %>%
     addTiles() %>%
     addMarkers(~x, ~y, popup = ~tag_number, label = ~tag_number)
