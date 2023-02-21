@@ -71,7 +71,7 @@ ui <- fluidPage(
                                       label = "Choose a beach:",
                                       choices = unique(seal_obs$beach_location_name_from_standardized_list)
                           )
-             ),
+             ), # end sidebar panel
              mainPanel("Seal Locations!",
                        leafletOutput(outputId = "beach_map")
              ) # end mainpanel
@@ -87,16 +87,28 @@ ui <- fluidPage(
   
   ### FOURTH TAB ###
   tabPanel("Moms and Pups",
-  radioButtons(
-    inputId = "pick_mom",
-    label = "Select a Mom",
-    choices = unique(pup_data$mother_tag_name),
-    selected = c("None Selected" = ""),
-    inline = TRUE,
-    width = '400px'))
+           
+           # sidebar layout
+           sidebarLayout(
+             sidebarPanel("WIDGETS",
+                          radioButtons(
+                            inputId = "pick_mom",
+                            label = "Select a Mom",
+                            choices = unique(pup_data$mother_tag_name),
+                            selected = c("None Selected" = ""),
+                            inline = TRUE,
+                            width = '400px'))
+                          ) # end sidebar layout
+             ,
+             mainPanel("Pup info!",
+                       textOutput("pick_mom")
+             ) #end mainpanel
+           ) # end tabpanel
   
-  ### END FOURTH TAB ###
-) # end navbarpage
+  ### END FOURTH TAB###
+           ) # end navbarpage 
+
+  
 ) # end ui
 
 ### Create the server function: ###
