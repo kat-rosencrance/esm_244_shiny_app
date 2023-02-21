@@ -49,7 +49,7 @@ ui <- fluidPage(
                                    actionButton("lifecycle", label = "Life Cycle"),
                                    actionButton("pups", label = "Pups"),
                                    actionButton("surveys", label = "Surveys"),
-                                   actionButton("genealogy", label = "Genealogy"),
+                                   actionButton("genealogy", label = "Genealogy")
                       ), # end sidebar panel
                       mainPanel("Information about the Monk Seal",
                                 textOutput("value")
@@ -140,7 +140,7 @@ ui <- fluidPage(
            ) # end navbarpage 
 
   
-) # end ui
+ # end ui
 
 ### Create the server function: ###
 server <- function(input, output) {
