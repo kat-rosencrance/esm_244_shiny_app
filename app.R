@@ -6,6 +6,7 @@ library(janitor)
 library(readxl)
 library(leaflet)
 library(shinythemes)
+library(shinyWidgets)
 
 ### READ IN DATA ###
 
@@ -49,7 +50,7 @@ ui <- fluidPage(
                                    actionButton("lifecycle", label = "Life Cycle"),
                                    actionButton("pups", label = "Pups"),
                                    actionButton("surveys", label = "Surveys"),
-                                   actionButton("genealogy", label = "Genealogy")
+                                   actionButton("genealogy", label = "Genealogy"),
                       ), # end sidebar panel
                       mainPanel("Information about the Monk Seal",
                                 textOutput("value")
@@ -83,7 +84,7 @@ ui <- fluidPage(
   
   
    ### THIRD TAB ###
-           tabPanel("Seal Characteristics"),
+           tabPanel("Seal Characteristics",
   sidebarLayout(
     sidebarPanel(
       prettyCheckboxGroup(
@@ -101,12 +102,12 @@ ui <- fluidPage(
           label = h4("Select size"),
           choices = unique(seal_obs$size),
           selected = unique(seal_obs$size))
-      ))
-  ),
+      )) # end sidebar panel
+  ), # end sidebar layout
   # Plotly widget - i think something like this i am missing
   mainPanel(
     plotlyOutput(outputId = "seal_obs_plot")) # end mainpanel
-  ), # end sidebar layout
+  ), # end tab panel
   
   ### FOURTH TAB ###
   tabPanel("Moms and Pups",
@@ -120,17 +121,9 @@ ui <- fluidPage(
                             choices = unique(pup_data$mother_tag_name),
                             selected = c("None Selected" = ""),
                             inline = TRUE,
-<<<<<<< HEAD
                             width = '400px')
-                          ) # end sidebarpanel 
-             ,
+                          ), # end sidebarpanel 
              mainPanel("Pup info!",
-=======
-                            width = '400px'))
-                          ) # end sidebar layout
-             
-             ,mainPanel("Pup info!",
->>>>>>> 9c13ff6e670ca7b8a70846732e7d716ec3a80bfd
                        textOutput("pick_mom")
              ) #end mainpanel
            ) # end sidebar layout
@@ -140,7 +133,7 @@ ui <- fluidPage(
            ) # end navbarpage 
 
   
- # end ui
+) # end ui
 
 ### Create the server function: ###
 server <- function(input, output) {
