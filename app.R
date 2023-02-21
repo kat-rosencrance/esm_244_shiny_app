@@ -82,10 +82,9 @@ ui <- fluidPage(
   
    ### THIRD TAB ###
            tabPanel("Seal Characteristics"),
-           tabPanel("Moms and Pups")
   
   ### FOURTH TAB ###
-  tabPanel("Mother and Pup Data")
+  tabPanel("Moms and Pups"),
   radioButtons(
     inputId = "pick_mom",
     label = "Select a Mom",
@@ -96,6 +95,7 @@ ui <- fluidPage(
     choiceNames = NULL, # has to have the same length as choice values
     choiceValues = NULL
   )
+  
 ) # end navbarpage
 ) # end ui
 
