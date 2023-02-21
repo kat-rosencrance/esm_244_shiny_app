@@ -9,20 +9,20 @@ library(shinythemes)
 
 ### READ IN DATA ###
 
-### map stuff
+# map stuff
 usaLat <- 36.5588659
 usaLon <- -107.6660877
 usaZoom <- 3
 
-### Seal observations
+# Seal observations
 seal_obs <- read_csv(here("data", "seal_observations.csv")) %>% 
   clean_names()
 
-### Genealogy
+# Genealogy
 # unable to read file probably because it's a gene tree in excel
 # genes <- read_xls(here("data", "genealogy.xlsx"))
 
-### Pup and mom data
+# Pup and mom data
 pup_predict <- read_csv(here("data", "pup_predictions.csv")) %>% 
   clean_names()
 pup_data <- read_csv(here("data", "pup_data.csv")) %>% 
@@ -36,20 +36,19 @@ ui <- fluidPage(
              title = "Hawaiian Monk Seal",
              
              
-             
              ### FIRST TAB ###
-           tabPanel("Locations", fluid = TRUE, icon = icon("globe-americas"),
+           tabPanel("About the Hawaiian Monk Seal", fluid = TRUE, icon = icon("water"),
                     
                     # sidebar layout
                     sidebarLayout(
                       sidebarPanel("WIDGETS",
-                                   selectInput(inputId = "pick_beach",
-                                                      label = "Choose a beach:",
-                                                      choices = unique(seal_obs$beach_location_name_from_standardized_list)
-                                   )
-                      ),
-                      mainPanel("Seal Locations!",
-                                leafletOutput(outputId = "beach_map")
+                                   actionButton("lifecycle", label = "Life Cycle"),
+                                   actionButton("pups", label = "Pups"),
+                                   actionButton("surveys", label = "Surveys"),
+                                   actionButton("genealogy", label = "Genealogy"),
+                      ), # end sidebar panel
+                      mainPanel("Information about the Monk Seal",
+                                textOutput("value")
                       ) # end mainpanel
                     ) # end sidebar layout
            ), ### END FIRST TAB ###
@@ -59,7 +58,27 @@ ui <- fluidPage(
            
            
            ### SECOND TAB ###
-           tabPanel("Genealogy"),
+           tabPanel("Locations",fluid = TRUE, icon = icon("globe-americas"),
+           
+           # sidebar layout
+           sidebarLayout(
+             sidebarPanel("WIDGETS",
+                          selectInput(inputId = "pick_beach",
+                                      label = "Choose a beach:",
+                                      choices = unique(seal_obs$beach_location_name_from_standardized_list)
+                          )
+             ),
+             mainPanel("Seal Locations!",
+                       leafletOutput(outputId = "beach_map")
+             ) # end mainpanel
+           ) # end sidebar layout
+  ), ### END SECOND TAB ###
+  
+  
+  
+  
+  
+   ### THIRD TAB ###
            tabPanel("Seal Characteristics"),
            tabPanel("Moms and Pups")
 ) # end navbarpage
@@ -69,18 +88,35 @@ ui <- fluidPage(
 ### Create the server function: ###
 server <- function(input, output) {
 
- ### FIRST TAB### 
+  ### FIRST TAB####
+  observeEvent(input$lifecycle, {
+    output$value <- renderText({"Monk seals spend two-thirds of their life at sea. They’ll molt completely once a year which helps keep their coat clean and free of algae growth. They can live to over 30 years, though life expectancy is often shorter. They can hold their breath for up to 20 minutes and dive more than 1,800 feet! However, an average dive is much shorter and shallower. Though they don’t migrate, they can travel hundreds of miles throughout the Hawaiian archipelago. " })
+  })
+  observeEvent(input$pups, {
+    output$value <- renderText({"Pup info"})
+  })
+  observeEvent(input$surveys, {
+    output$value <- renderText({"Survey info"})
+  })
+  observeEvent(input$genealogy, {
+    output$value <- renderText({"Genealogy info"})
+  })
+  
+ ### SECOND TAB### 
 seal_reactive <- reactive({
   seal_obs %>%
     filter(beach_location_name_from_standardized_list %in% input$pick_beach)
 })
 
 output$beach_map <- renderLeaflet({
-  leaflet(data = seal_reactive) %>%
+  leaflet(data = seal_obs) %>%
     setView(lat = usaLat, lng = usaLon, zoom = usaZoom) %>%
     addTiles() %>%
     addMarkers(~x, ~y, popup = ~tag_number, label = ~tag_number)
 })
-}
+
+
+} # end server
+
 # Combine them into an app:
 shinyApp(ui = ui, server = server)
