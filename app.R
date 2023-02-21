@@ -87,8 +87,8 @@ ui <- fluidPage(
  ### FOURTH TAB ###
       tabPanel("Mother and Pup Data")
       radioButtons(
-        inputId,
-        label,
+        inputId = 
+        label =
         choices = NULL,
         selected = NULL,
         inline = FALSE,
