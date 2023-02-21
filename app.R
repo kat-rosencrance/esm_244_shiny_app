@@ -97,12 +97,13 @@ ui <- fluidPage(
                             choices = unique(pup_data$mother_tag_name),
                             selected = c("None Selected" = ""),
                             inline = TRUE,
-                            width = '400px'))
-                          ) # end sidebar layout
+                            width = '400px')
+                          ) # end sidebarpanel 
              ,
              mainPanel("Pup info!",
                        textOutput("pick_mom")
              ) #end mainpanel
+           ) # end sidebar layout
            ) # end tabpanel
   
   ### END FOURTH TAB###
