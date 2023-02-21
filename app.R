@@ -84,6 +84,18 @@ ui <- fluidPage(
 ) # end navbarpage
 ) # end ui
 
+ ### FOURTH TAB ###
+      tabPanel("Mother and Pup Data")
+      radioButtons(
+        inputId,
+        label,
+        choices = NULL,
+        selected = NULL,
+        inline = FALSE,
+        width = NULL,
+        choiceNames = NULL,
+        choiceValues = NULL
+      )
 
 ### Create the server function: ###
 server <- function(input, output) {
