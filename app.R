@@ -86,18 +86,15 @@ ui <- fluidPage(
            tabPanel("Seal Characteristics"),
   
   ### FOURTH TAB ###
-  tabPanel("Moms and Pups"),
+  tabPanel("Moms and Pups",
   radioButtons(
     inputId = "pick_mom",
     label = "Select a Mom",
     choices = unique(pup_data$mother_tag_name),
     selected = c("None Selected" = ""),
     inline = TRUE,
-    width = '400px',
-    choiceNames = , # has to have the same length as choice values
-    choiceValues = 
-  )
-  
+    width = '400px'))
+  ### END FOURTH TAB ###
 ) # end navbarpage
 ) # end ui
 
@@ -129,6 +126,11 @@ output$beach_map <- renderLeaflet({
     setView(lat = usaLat, lng = usaLon, zoom = usaZoom) %>%
     addTiles() %>%
     addMarkers(~x, ~y, popup = ~tag_number, label = ~tag_number)
+})
+
+### FOURTH TAB ###
+output$txt <- renderText({
+  paste("You chose", input$rb)
 })
 
 
