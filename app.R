@@ -6,6 +6,7 @@ library(janitor)
 library(readxl)
 library(leaflet)
 library(shinythemes)
+library(shinyWidgets)
 
 ### READ IN DATA ###
 
@@ -48,7 +49,22 @@ ui <- fluidPage(
                                    actionButton("genealogy", label = "Genealogy"),
                       ), # end sidebar panel
                       mainPanel("Information about the Monk Seal",
-                                textOutput("value")
+                                textOutput("value"),
+                                br(),
+                                
+                                HTML('<img src="kala_1.jpeg" style="height: 120px; width:650px;"/>'),
+                                
+                      ),
+                      
+                      column(1),
+                      
+                      column(5,
+                             
+                             br(),
+                             
+                             br(),
+                             
+                             HTML('<img src="kala_8.jpeg" style="height: 450px; width:310px;"/>')
                       ) # end mainpanel
                     ) # end sidebar layout
            ), ### END FIRST TAB ###
@@ -80,18 +96,25 @@ ui <- fluidPage(
   
    ### THIRD TAB ###
            tabPanel("Seal Characteristics"),
-           tabPanel("Moms and Pups"),
-  fluidPage(
-    titlePanel("I am adding a title!"),
-    sidebarLayout(
-      sidebarPanel("put my widgets here",
-                   radioButtons(inputId = "penguin_species", label = "Choose penguin species", choices = c("Adelie","Gentoo","Cool Chinstrap Penguins!" = "Chinstrap")
-                   )
-      ),
-      mainPanel("put my graph here")
+  sidebarLayout(
+    sidebarPanel(
+      prettyCheckboxGroup(
+      "selectgender",
+      label = h4("Select gender"),
+      choices = unique(seal_obs$sex),
+      selected = unique(seal_obs$sex),
+      prettyCheckboxGroup(
+        "selectlocation",
+        label = h4("Select location"),
+        choices = unique(seal_obs$beach_location_name_from_standardized_list),
+        selected = unique(seal_obs$beach_location_name_from_standardized_list)
+      )
+    ))
+    )
+    ) # end mainpanel
+  ) # end sidebar layout
+
   
-) # end navbarpage
-) # end ui
 
 
 ### Create the server function: ###
@@ -124,19 +147,17 @@ output$beach_map <- renderLeaflet({
     addMarkers(~x, ~y, popup = ~tag_number, label = ~tag_number)
 })
 
-### THIRD TAB ###
-mom_pup_seal_info <- reactive({
-  seal_obs %>%
-    filter(sex == input$sex)
+### THIRD TAB ### - we are making a reactive plot
+output$seal_obs_plot <- renderPlotly({
+  ggplotly(ggplot(data = seal_obs(), aes(x = sex,
+                                         y = count) +
+                    geom_bar() +
+                    scale_fill_manual(values = c('steelblue1', 'slategrey'), drop = FALSE) +
+                    labs(x = "Sex",
+                         y = "Counts") +
+                    theme_minimal(),
+                  tooltip = 'text'
 })
-
-output$seal_plot <- renderPlot({
-  
-  ggplot(data = mom_pup_seal_info(), aes(x = sex, y = body_mass_g######)) +
-    geom_point()
-  
-})
-
 
 } # end server
 
