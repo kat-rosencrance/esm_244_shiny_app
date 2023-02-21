@@ -83,21 +83,21 @@ ui <- fluidPage(
    ### THIRD TAB ###
            tabPanel("Seal Characteristics"),
            tabPanel("Moms and Pups")
+  
+  ### FOURTH TAB ###
+  tabPanel("Mother and Pup Data")
+  radioButtons(
+    inputId = "pick_mom",
+    label = "Select a Mom",
+    choices = unique(pup_data$mother_tag_name),
+    selected = c("None Selected" = ""),
+    inline = TRUE,
+    width = '400px',
+    choiceNames = NULL, # has to have the same length as choice values
+    choiceValues = NULL
+  )
 ) # end navbarpage
 ) # end ui
-
-### FOURTH TAB ###
-tabPanel("Mother and Pup Data")
-radioButtons(
-  inputId = "pick_mom",
-  label = "Select a Mom",
-  choices = unique(pup_data$mother_tag_name),
-  selected = NULL,
-  inline = FALSE,
-  width = NULL,
-  choiceNames = NULL, # has to have the same length as choice values
-  choiceValues = NULL
-)
 
 ### Create the server function: ###
 server <- function(input, output) {
