@@ -7,6 +7,7 @@ library(readxl)
 library(leaflet)
 library(shinythemes)
 library(shinyWidgets)
+library(plotly)
 
 ### READ IN DATA ###
 
@@ -19,9 +20,9 @@ usaZoom <- 3
 seal_obs <- read_csv(here("data", "seal_observations.csv")) %>% 
   clean_names()
 
-# Genealogy
-# unable to read file probably because it's a gene tree in excel
-# genes <- read_xls(here("data", "genealogy.xlsx"))
+
+
+
 
 # Pup and mom data
 pup_predict <- read_csv(here("data", "pup_predictions.csv")) %>% 
@@ -49,25 +50,10 @@ ui <- fluidPage(
                                    actionButton("genealogy", label = "Genealogy"),
                       ), # end sidebar panel
                       mainPanel("Information about the Monk Seal",
-                                textOutput("value"),
-                                br(),
-                                
-                                HTML('<img src="kala_1.jpeg" style="height: 120px; width:650px;"/>'),
-                                
-                      ),
-                      
-                      column(1),
-                      
-                      column(5,
-                             
-                             br(),
-                             
-                             br(),
-                             
-                             HTML('<img src="kala_8.jpeg" style="height: 450px; width:310px;"/>')
+                                textOutput("value")
                       ) # end mainpanel
                     ) # end sidebar layout
-           ), ### END FIRST TAB ###
+           )), ### END FIRST TAB ###
            
            
            
@@ -107,11 +93,17 @@ ui <- fluidPage(
         "selectlocation",
         label = h4("Select location"),
         choices = unique(seal_obs$beach_location_name_from_standardized_list),
-        selected = unique(seal_obs$beach_location_name_from_standardized_list)
-      )
+        selected = unique(seal_obs$beach_location_name_from_standardized_list)),
+      prettyCheckboxGroup(
+        "selectsize",
+        label = h4("Select size"),
+        choices = unique(seal_obs$size),
+        selected = unique(seal_obs$size))
     ))
-    )
-    ) # end mainpanel
+    ),
+  # Plotly widget - i think something like this i am missing
+  mainPanel(
+    plotlyOutput(outputId = "seal_obs_plot")) # end mainpanel
   ) # end sidebar layout
 
   
@@ -148,16 +140,21 @@ output$beach_map <- renderLeaflet({
 })
 
 ### THIRD TAB ### - we are making a reactive plot
+seal_obs_reactive <- reactive({
+  seal_obs %>%
+    dplyr::filter(gender %in% input$selectgender,
+           location %in% input$selectlocation,
+           size %in% input$selectsize)})
+
 output$seal_obs_plot <- renderPlotly({
-  ggplotly(ggplot(data = seal_obs(), aes(x = sex,
-                                         y = count) +
-                    geom_bar() +
+  ggplotly(
+    ggplot(data = seal_obs_reactive(), aes(x = location, fill = size)) +
+                    geom_bar(position_dodge2(preserve = "single"), width = 0.5) +
                     scale_fill_manual(values = c('steelblue1', 'slategrey'), drop = FALSE) +
                     labs(x = "Sex",
                          y = "Counts") +
                     theme_minimal(),
-                  tooltip = 'text'
-})
+                  tooltip = 'text')})
 
 } # end server
 
