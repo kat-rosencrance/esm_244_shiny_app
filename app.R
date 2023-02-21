@@ -28,6 +28,8 @@ pup_predict <- read_csv(here("data", "pup_predictions.csv")) %>%
 pup_data <- read_csv(here("data", "pup_data.csv")) %>% 
   clean_names()
 
+colnames(pup_data)
+
 
 
 ### CREATE THE USER INTERFACE: ###
@@ -87,13 +89,13 @@ ui <- fluidPage(
  ### FOURTH TAB ###
       tabPanel("Mother and Pup Data")
       radioButtons(
-        inputId = 
-        label =
-        choices = NULL,
+        inputId = "pick_mom",
+        label = "Select a Mom",
+        choices = unique(pup_data$),
         selected = NULL,
         inline = FALSE,
         width = NULL,
-        choiceNames = NULL,
+        choiceNames = NULL, # has to have the same length as choice values
         choiceValues = NULL
       )
 
