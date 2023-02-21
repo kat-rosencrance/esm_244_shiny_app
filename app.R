@@ -85,29 +85,30 @@ ui <- fluidPage(
   
    ### THIRD TAB ###
            tabPanel("Seal Characteristics",
-  sidebarLayout(
-    sidebarPanel(
-      prettyCheckboxGroup(
-        "selectgender",
-        label = h4("Select gender"),
-        choices = unique(seal_obs$sex),
-        selected = unique(seal_obs$sex),
-        prettyCheckboxGroup(
-          "selectlocation",
-          label = h4("Select location"),
-          choices = unique(seal_obs$beach_location_name_from_standardized_list),
-          selected = unique(seal_obs$beach_location_name_from_standardized_list)),
-        prettyCheckboxGroup(
-          "selectsize",
-          label = h4("Select size"),
-          choices = unique(seal_obs$size),
-          selected = unique(seal_obs$size))
+                    sidebarLayout(
+                      sidebarPanel(
+                        prettyCheckboxGroup(
+                          "selectgender",
+                          label = h4("Select gender"),
+                          choices = unique(seal_obs$sex),
+                          selected = unique(seal_obs$sex),
+                        prettyCheckboxGroup(
+                          "selectlocation",
+                          label = h4("Select location"),
+                          choices = unique(seal_obs$beach_location_name_from_standardized_list),
+                          selected = unique(seal_obs$beach_location_name_from_standardized_list)),
+                        prettyCheckboxGroup(
+                          "selectsize",
+                          label = h4("Select size"),
+                          choices = unique(seal_obs$size),
+                          selected = unique(seal_obs$size))
       )) # end sidebar panel
   ), # end sidebar layout
-  # Plotly widget - i think something like this i am missing
-  mainPanel(
-    plotlyOutput(outputId = "seal_obs_plot")) # end mainpanel
+            mainPanel(
+              plotlyOutput(outputId = "seal_obs_plot")) # end mainpanel
   ), # end tab panel
+  
+  
   
   ### FOURTH TAB ###
   tabPanel("Moms and Pups",
