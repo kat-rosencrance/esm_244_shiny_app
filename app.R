@@ -80,7 +80,16 @@ ui <- fluidPage(
   
    ### THIRD TAB ###
            tabPanel("Seal Characteristics"),
-           tabPanel("Moms and Pups")
+           tabPanel("Moms and Pups"),
+  fluidPage(
+    titlePanel("I am adding a title!"),
+    sidebarLayout(
+      sidebarPanel("put my widgets here",
+                   radioButtons(inputId = "penguin_species", label = "Choose penguin species", choices = c("Adelie","Gentoo","Cool Chinstrap Penguins!" = "Chinstrap")
+                   )
+      ),
+      mainPanel("put my graph here")
+  
 ) # end navbarpage
 ) # end ui
 
@@ -113,6 +122,19 @@ output$beach_map <- renderLeaflet({
     setView(lat = usaLat, lng = usaLon, zoom = usaZoom) %>%
     addTiles() %>%
     addMarkers(~x, ~y, popup = ~tag_number, label = ~tag_number)
+})
+
+### THIRD TAB ###
+mom_pup_seal_info <- reactive({
+  seal_obs %>%
+    filter(sex == input$sex)
+})
+
+output$seal_plot <- renderPlot({
+  
+  ggplot(data = mom_pup_seal_info(), aes(x = sex, y = body_mass_g######)) +
+    geom_point()
+  
 })
 
 
