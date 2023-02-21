@@ -164,6 +164,24 @@ output$beach_map <- renderLeaflet({
     addMarkers(~x, ~y, popup = ~tag_number, label = ~tag_number)
 })
 
+### THIRD TAB ### - we are making a reactive plot
+seal_obs_reactive <- reactive({
+  seal_obs %>%
+    dplyr::filter(gender %in% input$selectgender,
+                  location %in% input$selectlocation,
+                  size %in% input$selectsize)})
+
+output$seal_obs_plot <- renderPlotly({
+  ggplotly(
+    ggplot(data = seal_obs_reactive(), aes(x = location, fill = size)) +
+      geom_bar(position_dodge2(preserve = "single"), width = 0.5) +
+      scale_fill_manual(values = c('steelblue1', 'slategrey'), drop = FALSE) +
+      labs(x = "Sex",
+           y = "Counts") +
+      theme_minimal(),
+    tooltip = 'text')})
+
+
 ### FOURTH TAB ###
 output$pick_mom <- renderText({
   paste("You chose", input$pick_mom)
