@@ -99,8 +99,8 @@ ui <- fluidPage(
                             inline = TRUE,
                             width = '400px'))
                           ) # end sidebar layout
-             ,
-             mainPanel("Pup info!",
+             
+             ,mainPanel("Pup info!",
                        textOutput("pick_mom")
              ) #end mainpanel
            ) # end tabpanel
