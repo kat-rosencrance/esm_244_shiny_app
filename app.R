@@ -26,10 +26,10 @@ seal_obs <- read_csv(here("data", "seal_observations.csv")) %>%
 pup_predict <- read_csv(here("data", "pup_predictions.csv")) %>% 
   clean_names()
 pup_data <- read_csv(here("data", "pup_data.csv")) %>% 
-  clean_names()
+  clean_names() %>%
+  mutate(...1 = "mother_tag_number")
 
 colnames(pup_data)
-
 
 
 ### CREATE THE USER INTERFACE: ###
@@ -86,18 +86,18 @@ ui <- fluidPage(
 ) # end navbarpage
 ) # end ui
 
- ### FOURTH TAB ###
-      tabPanel("Mother and Pup Data")
-      radioButtons(
-        inputId = "pick_mom",
-        label = "Select a Mom",
-        choices = unique(pup_data$),
-        selected = NULL,
-        inline = FALSE,
-        width = NULL,
-        choiceNames = NULL, # has to have the same length as choice values
-        choiceValues = NULL
-      )
+### FOURTH TAB ###
+tabPanel("Mother and Pup Data")
+radioButtons(
+  inputId = "pick_mom",
+  label = "Select a Mom",
+  choices = unique(pup_data$mother_tag_name),
+  selected = NULL,
+  inline = FALSE,
+  width = NULL,
+  choiceNames = NULL, # has to have the same length as choice values
+  choiceValues = NULL
+)
 
 ### Create the server function: ###
 server <- function(input, output) {
