@@ -84,6 +84,29 @@ ui <- fluidPage(
   
    ### THIRD TAB ###
            tabPanel("Seal Characteristics"),
+  sidebarLayout(
+    sidebarPanel(
+      prettyCheckboxGroup(
+        "selectgender",
+        label = h4("Select gender"),
+        choices = unique(seal_obs$sex),
+        selected = unique(seal_obs$sex),
+        prettyCheckboxGroup(
+          "selectlocation",
+          label = h4("Select location"),
+          choices = unique(seal_obs$beach_location_name_from_standardized_list),
+          selected = unique(seal_obs$beach_location_name_from_standardized_list)),
+        prettyCheckboxGroup(
+          "selectsize",
+          label = h4("Select size"),
+          choices = unique(seal_obs$size),
+          selected = unique(seal_obs$size))
+      ))
+  ),
+  # Plotly widget - i think something like this i am missing
+  mainPanel(
+    plotlyOutput(outputId = "seal_obs_plot")) # end mainpanel
+  ), # end sidebar layout
   
   ### FOURTH TAB ###
   tabPanel("Moms and Pups",
@@ -97,10 +120,17 @@ ui <- fluidPage(
                             choices = unique(pup_data$mother_tag_name),
                             selected = c("None Selected" = ""),
                             inline = TRUE,
+<<<<<<< HEAD
                             width = '400px')
                           ) # end sidebarpanel 
              ,
              mainPanel("Pup info!",
+=======
+                            width = '400px'))
+                          ) # end sidebar layout
+             
+             ,mainPanel("Pup info!",
+>>>>>>> 9c13ff6e670ca7b8a70846732e7d716ec3a80bfd
                        textOutput("pick_mom")
              ) #end mainpanel
            ) # end sidebar layout
@@ -141,6 +171,24 @@ output$beach_map <- renderLeaflet({
     addTiles() %>%
     addMarkers(~x, ~y, popup = ~tag_number, label = ~tag_number)
 })
+
+### THIRD TAB ### - we are making a reactive plot
+seal_obs_reactive <- reactive({
+  seal_obs %>%
+    dplyr::filter(gender %in% input$selectgender,
+                  location %in% input$selectlocation,
+                  size %in% input$selectsize)})
+
+output$seal_obs_plot <- renderPlotly({
+  ggplotly(
+    ggplot(data = seal_obs_reactive(), aes(x = location, fill = size)) +
+      geom_bar(position_dodge2(preserve = "single"), width = 0.5) +
+      scale_fill_manual(values = c('steelblue1', 'slategrey'), drop = FALSE) +
+      labs(x = "Sex",
+           y = "Counts") +
+      theme_minimal(),
+    tooltip = 'text')})
+
 
 ### FOURTH TAB ###
 output$pick_mom <- renderText({
