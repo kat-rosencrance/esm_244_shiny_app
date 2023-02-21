@@ -94,6 +94,7 @@ ui <- fluidPage(
     selected = c("None Selected" = ""),
     inline = TRUE,
     width = '400px'))
+  
   ### END FOURTH TAB ###
 ) # end navbarpage
 ) # end ui
@@ -129,8 +130,9 @@ output$beach_map <- renderLeaflet({
 })
 
 ### FOURTH TAB ###
-output$txt <- renderText({
-  paste("You chose", input$rb)
+output$pick_mom <- renderText({
+  paste("You chose", input$pick_mom)
+  
 })
 
 
