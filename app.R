@@ -26,9 +26,11 @@ seal_obs <- read_csv(here("data", "seal_observations.csv")) %>%
 pup_predict <- read_csv(here("data", "pup_predictions.csv")) %>% 
   clean_names()
 pup_data <- read_csv(here("data", "pup_data.csv")) %>% 
-  clean_names() %>%
-  mutate(...1 = "mother_tag_number")
+  clean_names()
 
+  colnames(pup_data)[1] <- "mother_tag_name"
+
+view(pup_data)
 colnames(pup_data)
 
 
@@ -92,8 +94,8 @@ ui <- fluidPage(
     selected = c("None Selected" = ""),
     inline = TRUE,
     width = '400px',
-    choiceNames = NULL, # has to have the same length as choice values
-    choiceValues = NULL
+    choiceNames = , # has to have the same length as choice values
+    choiceValues = 
   )
   
 ) # end navbarpage
