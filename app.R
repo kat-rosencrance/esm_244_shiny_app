@@ -31,8 +31,8 @@ pup_data <- read_csv(here("data", "pup_data.csv")) %>%
 
   colnames(pup_data)[1] <- "mother_tag_name"
 
-view(pup_data)
-colnames(pup_data)
+# view(pup_data)
+# colnames(pup_data)
 
 
 ### CREATE THE USER INTERFACE: ###
@@ -50,7 +50,7 @@ ui <- fluidPage(
                                    actionButton("lifecycle", label = "Life Cycle"),
                                    actionButton("pups", label = "Pups"),
                                    actionButton("surveys", label = "Surveys"),
-                                   actionButton("genealogy", label = "Genealogy"),
+                                   actionButton("genealogy", label = "Genealogy")
                       ), # end sidebar panel
                       mainPanel("Information about the Monk Seal",
                                 textOutput("value")
@@ -83,15 +83,15 @@ ui <- fluidPage(
   
   
   
-   ### THIRD TAB ###
+  #  ### THIRD TAB ###
            tabPanel("Seal Characteristics",
                     sidebarLayout(
                       sidebarPanel(
                         prettyCheckboxGroup(
-                          "selectgender",
+                          "selectsex",
                           label = h4("Select gender"),
                           choices = unique(seal_obs$sex),
-                          selected = unique(seal_obs$sex),
+                          selected = unique(seal_obs$sex)),
                         prettyCheckboxGroup(
                           "selectlocation",
                           label = h4("Select location"),
@@ -102,10 +102,11 @@ ui <- fluidPage(
                           label = h4("Select size"),
                           choices = unique(seal_obs$size),
                           selected = unique(seal_obs$size))
-      )) # end sidebar panel
-  ), # end sidebar layout
-            mainPanel(
-              plotlyOutput(outputId = "seal_obs_plot")) # end mainpanel
+                        ),
+                      mainPanel(
+                        plotlyOutput(outputId = "seal_obs_plot")
+                      )# end sidebar panel
+  ) # end sidebar layout
   ), # end tab panel
   
   
@@ -168,10 +169,11 @@ output$beach_map <- renderLeaflet({
 
 ### THIRD TAB ### - we are making a reactive plot
 seal_obs_reactive <- reactive({
+  message("i am in seal_obs_reactive and I seem to be working")
   seal_obs %>%
-    dplyr::filter(gender %in% input$selectgender,
-                  location %in% input$selectlocation,
-                  size %in% input$selectsize)})
+    dplyr::filter(gender == input$selectsex,
+                  location == input$selectlocation,
+                  size == input$selectsize)})
 
 output$seal_obs_plot <- renderPlotly({
   ggplotly(
