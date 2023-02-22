@@ -7,6 +7,7 @@ library(readxl)
 library(leaflet)
 library(shinythemes)
 library(shinyWidgets)
+library(plotly)
 
 ### READ IN DATA ###
 
@@ -171,9 +172,9 @@ output$beach_map <- renderLeaflet({
 seal_obs_reactive <- reactive({
   message("i am in seal_obs_reactive and I seem to be working")
   seal_obs %>%
-    dplyr::filter(gender == input$selectsex,
-                  location == input$selectlocation,
-                  size == input$selectsize)})
+    dplyr::filter(sex %in% input$selectsex, # not sure what is happening here
+                  location %in% input$selectlocation,
+                  size %in% input$selectsize)})
 
 output$seal_obs_plot <- renderPlotly({
   ggplotly(
