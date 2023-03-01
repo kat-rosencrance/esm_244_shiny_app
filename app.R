@@ -20,8 +20,10 @@ usaZoom <- 15
 # Seal observations
 seal_obs <- read_csv(here("data", "seal_observations.csv")) %>% 
   clean_names() %>%
-  mutate(case_when(is.na(sex) ~ "Sex not detected", 
-                   TRUE ~ sex))
+  select(beach_location_name_from_standardized_list, sex, size) %>% #rename for sanity
+  mutate(sex = case_when(is.na(sex) ~ "Sex not detected", 
+                   TRUE ~ sex)) %>%
+  drop_na()
 
 # Genealogy
 # used the data from the left of the original genealogy sheet. May be able to use this one for the mom and pup widget
@@ -139,17 +141,17 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                           "selectsex",
                           label = h4("Select gender"),
                           choices = unique(seal_obs$sex),
-                          selected = unique(seal_obs$sex)),
+                          selected = unique(seal_obs$sex)[1]),
                         prettyCheckboxGroup(
                           "selectlocation",
                           label = h4("Select location"),
                           choices = unique(seal_obs$beach_location_name_from_standardized_list),
-                          selected = unique(seal_obs$beach_location_name_from_standardized_list)),
+                          selected = unique(seal_obs$beach_location_name_from_standardized_list)[1]),
                         prettyCheckboxGroup(
                           "selectsize",
                           label = h4("Select size"),
                           choices = unique(seal_obs$size),
-                          selected = unique(seal_obs$size))
+                          selected = unique(seal_obs$size)[1])
                         ),
                       mainPanel(
                         plotlyOutput(outputId = "seal_obs_plot")
@@ -230,18 +232,20 @@ seal_obs_reactive <- reactive({
   seal_third_widget <- 
     seal_obs %>%
     filter(sex %in% input$selectsex,
-           location %in% input$selectlocation,
-           size %in% input$selectsize)})
+           beach_location_name_from_standardized_list %in% input$selectlocation,
+           size %in% input$selectsize)
+  browser()
+  return(seal_third_widget)
+   })
 
-output$seal_obs_plot <- renderPlotly({
-  ggplotly(
-    ggplot(data = seal_obs_reactive(), aes(x = location, fill = size)) +
-      geom_bar(position_dodge2(preserve = "single"), width = 0.5) +
+output$seal_obs_plot <- renderPlot({
+    ggplot(data = seal_obs_reactive(), aes(x = beach_location_name_from_standardized_list, fill = size)) +
+      geom_bar(width = 0.5) +
       scale_fill_manual(values = c('steelblue1', 'slategrey'), drop = FALSE) +
       labs(x = "Sex",
            y = "Counts") +
-      theme_minimal(),
-    tooltip = 'text')})
+      theme_minimal() #change to render plot #fix the ggplot your error is here
+  })
 
 
 ### FOURTH TAB ###
