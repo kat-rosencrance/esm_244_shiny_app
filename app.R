@@ -168,7 +168,7 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
            
            # sidebar layout
            sidebarLayout(
-             sidebarPanel("WIDGETS",
+             sidebarPanel("Select a mom to see data about her pups!",
                           radioButtons(
                             inputId = "pick_mom",
                             label = "Select a Mom",
@@ -201,7 +201,7 @@ server <- function(input, output) {
     output$value <- renderText({"Monk seals spend two-thirds of their life at sea. They’ll molt completely once a year which helps keep their coat clean and free of algae growth. They can live to over 30 years, though life expectancy is often shorter. They can hold their breath for up to 20 minutes and dive more than 1,800 feet! However, an average dive is much shorter and shallower. Though they don’t migrate, they can travel hundreds of miles throughout the Hawaiian archipelago. " })
   })
   observeEvent(input$pups, {
-    output$value <- renderText({"Pup info"})
+    output$value <- renderText({"Monk seal pups remain with their mothers for the first 5-7 weeks of their lives. During this time, undergo a drastic physical transformation. Pups begin life at sround 25 pounds with a black, fluffy coat. When they are ready to hunt on their own, these pups have gray fur and have grown significantly, usually weighing in around 200 pounds."})
   })
   observeEvent(input$surveys, {
     output$value <- renderText({"Survey info"})
