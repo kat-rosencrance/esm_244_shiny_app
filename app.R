@@ -18,7 +18,8 @@ usaZoom <- 3
 
 # Seal observations
 seal_obs <- read_csv(here("data", "seal_observations.csv")) %>% 
-  clean_names()
+  clean_names() %>%
+  mutate(case_when(is.na(beach_location_name_from_standardized_list) ~ "No location data point"))
 
 # Genealogy
 # unable to read file probably because it's a gene tree in excel
@@ -97,7 +98,7 @@ ui <- fluidPage(
                           "selectlocation",
                           label = h4("Select location"),
                           choices = unique(seal_obs$beach_location_name_from_standardized_list),
-                          selected = NULL),
+                          selected = unique(seal_obs$beach_location_name_from_standardized_list)),
                         prettyCheckboxGroup(
                           "selectsize",
                           label = h4("Select size"),
