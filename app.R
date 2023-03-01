@@ -97,7 +97,7 @@ ui <- fluidPage(
                           "selectlocation",
                           label = h4("Select location"),
                           choices = unique(seal_obs$beach_location_name_from_standardized_list),
-                          selected = unique(seal_obs$beach_location_name_from_standardized_list)),
+                          selected = NULL),
                         prettyCheckboxGroup(
                           "selectsize",
                           label = h4("Select size"),
@@ -172,7 +172,7 @@ output$beach_map <- renderLeaflet({
 seal_obs_reactive <- reactive({
   message("i am in seal_obs_reactive and I seem to be working")
   seal_obs %>%
-    dplyr::filter(sex %in% input$selectsex, # not sure what is happening here
+  dplyr::filter(sex %in% input$selectsex, # not sure what is happening here
                   location %in% input$selectlocation,
                   size %in% input$selectsize)})
 
