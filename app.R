@@ -89,6 +89,7 @@ ui <- fluidPage(
   
   #  ### THIRD TAB ###
            tabPanel("Seal Characteristics",
+                    HTML('<center><img src="kala_6.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 580px; width:653px;"/></center>'),
                     sidebarLayout(
                       sidebarPanel(
                         prettyCheckboxGroup(
