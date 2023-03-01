@@ -19,7 +19,8 @@ usaZoom <- 3
 # Seal observations
 seal_obs <- read_csv(here("data", "seal_observations.csv")) %>% 
   clean_names() %>%
-  mutate(case_when(is.na(beach_location_name_from_standardized_list) ~ "No location data point"))
+  mutate(case_when(is.na(sex) ~ "Sex not detected", 
+                   TRUE ~ sex))
 
 # Genealogy
 # unable to read file probably because it's a gene tree in excel
@@ -55,6 +56,7 @@ ui <- fluidPage(
                                    actionButton("genealogy", label = "Genealogy")
                       ), # end sidebar panel
                       mainPanel("Information about the Monk Seal",
+                                HTML('<center><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 580px; width:653px;"/></center>'),
                                 textOutput("value")
                       ) # end mainpanel
                     ) # end sidebar layout
@@ -172,10 +174,11 @@ output$beach_map <- renderLeaflet({
 ### THIRD TAB ### - we are making a reactive plot
 seal_obs_reactive <- reactive({
   message("i am in seal_obs_reactive and I seem to be working")
-  seal_obs %>%
-  dplyr::filter(sex %in% input$selectsex, # not sure what is happening here
-                  location %in% input$selectlocation,
-                  size %in% input$selectsize)})
+  seal_third_widget <- 
+    seal_obs %>%
+    filter(sex %in% input$selectsex,
+           location %in% input$selectlocation,
+           size %in% input$selectsize)})
 
 output$seal_obs_plot <- renderPlotly({
   ggplotly(
