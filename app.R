@@ -242,7 +242,7 @@ server <- function(input, output) {
       root = input$selectedmom,
       attribute = "puppup",
       hierarchy = c("mom","pup", "puppup"),
-      fill = "Green",
+      fill = "darkblue",
       zoomable = FALSE
     )
   )
