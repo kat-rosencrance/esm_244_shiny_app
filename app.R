@@ -111,7 +111,9 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                       textOutput("value"),
                       
                       ##trying gene stuff
-                      column(2, uiOutput("mompuptree")),
+                      selectInput(inputId = "selectedmom",
+                                  label = "Select a Mom",
+                                  choices = unique(gene_test_df$mom)),
                       collapsibleTreeOutput('tree', height='700px')
                       ) # end mainpanel
                     ) # end sidebar layout
@@ -170,7 +172,7 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                           selected = unique(seal_obs$size)[1])
                         ),
                       mainPanel(
-                        plotlyOutput(outputId = "seal_obs_plot")
+                        plotOutput(outputId = "seal_obs_plot")
                       )# end sidebar panel
   ) # end sidebar layout
   ), 
@@ -230,19 +232,16 @@ server <- function(input, output) {
   
 ### GENEALOGY TEST###
   # collapsible tree
-  output$mompuptree <- renderUI({
-    selectInput("selectedmom","Select a Mom:", mom_gene_test)
-  })
-  
-  puptree <- reactive(gene_test_df[gene_test_df$mom==input$mompuptree,
-                                  c("mom", "pup")])
+
+  puptree <- reactive(gene_test_df[gene_test_df$mom==input$selectedmom,
+                                  c("mom", "pup", "puppup")])
   
   output$tree <- renderCollapsibleTree(
     collapsibleTree(
       puptree(),
       root = input$selectedmom,
-      attribute = "pup",
-      hierarchy = "pup",
+      attribute = "puppup",
+      hierarchy = c("mom","pup", "puppup"),
       fill = "Green",
       zoomable = FALSE
     )
@@ -269,9 +268,7 @@ seal_obs_reactive <- reactive({
     filter(sex %in% input$selectsex,
            beach_location_name_from_standardized_list %in% input$selectlocation,
            size %in% input$selectsize)
-  browser()
-  return(seal_third_widget)
-   })
+})
 
 output$seal_obs_plot <- renderPlot({
     ggplot(data = seal_obs_reactive(), aes(x = beach_location_name_from_standardized_list, fill = size)) +
