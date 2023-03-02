@@ -20,7 +20,7 @@ usaZoom <- 15
 # Seal observations
 seal_obs <- read_csv(here("data", "seal_observations.csv")) %>% 
   clean_names() %>%
-  select(beach_location_name_from_standardized_list, sex, size) %>% #rename for sanity
+  select(beach_location_name_from_standardized_list, sex, size, x, y, tag_number) %>% #rename for sanity
   mutate(sex = case_when(is.na(sex) ~ "Sex not detected", 
                    TRUE ~ sex)) %>%
   drop_na()
