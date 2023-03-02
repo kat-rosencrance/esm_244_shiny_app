@@ -9,6 +9,7 @@ library(leaflet.extras)
 library(shinythemes)
 library(shinyWidgets)
 library(plotly)
+library(collapsibleTree)
 
 ### READ IN DATA ###
 
@@ -27,7 +28,18 @@ seal_obs <- read_csv(here("data", "seal_observations.csv")) %>%
 
 # Genealogy
 # used the data from the left of the original genealogy sheet. May be able to use this one for the mom and pup widget
-genes <- read_csv(here("data", "genealogy_fix_kr.csv"))
+genes <- read_csv(here("data", "genealogy_fix_kr.csv")) %>% 
+  clean_names() %>% 
+  drop_na()
+
+moms_gene <- sort(as.character(unique(genes[,c("mom")])))
+#moms_gene
+
+##gene test data (will be deleted)
+gene_test_df <- read_csv(here("data", "gene_test_data.csv"))
+mom_gene_test<- sort(as.character(unique(gene_test_df["mom"])))
+
+
 
 # Pup and mom data
 pup_predict <- read_csv(here("data", "pup_predictions.csv")) %>% 
@@ -96,7 +108,11 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                       ), # end sidebar panel
 
                       mainPanel(          
-                      textOutput("value")
+                      textOutput("value"),
+                      
+                      ##trying gene stuff
+                      column(2, uiOutput("mompuptree")),
+                      collapsibleTreeOutput('tree', height='700px')
                       ) # end mainpanel
                     ) # end sidebar layout
            ), 
@@ -212,6 +228,25 @@ server <- function(input, output) {
     output$value <- renderText({"Genealogy info"})
   })
   
+### GENEALOGY TEST###
+  # collapsible tree
+  output$mompuptree <- renderUI({
+    selectInput("selectedmom","Select a Mom:", mom_gene_test)
+  })
+  
+  puptree <- reactive(gene_test_df[gene_test_df$mom==input$mompuptree,
+                                  c("mom", "pup")])
+  
+  output$tree <- renderCollapsibleTree(
+    collapsibleTree(
+      puptree(),
+      root = input$selectedmom,
+      attribute = "pup",
+      hierarchy = "pup",
+      fill = "Green",
+      zoomable = FALSE
+    )
+  )
  ### LOCATION TAB### 
 seal_reactive <- reactive({
   seal_obs %>%
