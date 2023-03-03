@@ -69,14 +69,26 @@ ui <- fluidPage(
                           
              ###FIRST TAB - HOME PAGE & INTRODUCTION###
              tabPanel("Home", fluid = TRUE, icon = icon("home"),
+                      sidebarLayout(
+                        sidebarPanel(HTML('<center><img src="kala_park_pic.PNG" alt="Kalaupapa National Historic Park" style="height: 150px; width:200px;"/></center>'),
+                                     hr(),
+                                     actionButton("lifecycle", label = "Seal Life Cycle"),
+                                     hr(),
+                                     actionButton("pups", label = "Pups"),
+                                     hr(),
+                                     actionButton("surveys", label = "NPS Surveys"),
+                                     hr(),
+                                     actionButton("genealogy", label = "Genealogy")
+                        ), # end sidebar panel
                       mainPanel(h1("Welcome!"),
                                 "Hawaiian Monk Seals is an app that lets you visualize Kalaupapa National Historic Park's monk seal survey data .
 
 From the top navigation panel you'll be able to access graphs displaying seal observation data, observed locations, as well as mother and pup characteristics.
 
 It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCSB.",
-                      HTML('<center><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 580px; width:653px;"/></center>'),
-                      )# end mainpanel
+                      HTML('<center><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 500px; width:550px;"/></center>'),
+                      textOutput("value")
+)) # end mainpanel
                       ), 
             ###END FIRST TAB###
              
@@ -90,31 +102,15 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                                      
                               
                                      
-            ### SECOND TAB - ABOUT MONK SEALS (MAY BE REPLACED WITH GENEALOGY?) ###
-           tabPanel("About Monk Seals", fluid = TRUE, icon = icon("water"),
-                    # sidebar layout
-                    sidebarLayout(
-                      sidebarPanel(HTML('<center><img src="kala_park_pic.PNG" alt="Kalaupapa National Historic Park" style="height: 150px; width:200px;"/></center>'),
-                                   hr(),
-                                   actionButton("lifecycle", label = "Life Cycle"),
-                                   hr(),
-                                   actionButton("pups", label = "Pups"),
-                                   hr(),
-                                   actionButton("surveys", label = "Surveys"),
-                                   hr(),
-                                   actionButton("genealogy", label = "Genealogy")
-                      ), # end sidebar panel
-
+            ### SECOND TAB - GENEALOGY ###
+           tabPanel("Genealogy Tree", fluid = TRUE, icon = icon("water"),
                       mainPanel(          
-                      textOutput("value"),
-                      
                       ##trying gene stuff
                       selectInput(inputId = "selectedmom",
                                   label = "Select a Mom",
                                   choices = unique(gene_df_new$mom)),
                       collapsibleTreeOutput('tree', height='700px')
                       ) # end mainpanel
-                    ) # end sidebar layout
            ), 
             ### END SECOND TAB ###
            
@@ -238,7 +234,6 @@ server <- function(input, output) {
     collapsibleTree(
       puptree(),
       root = input$selectedmom,
-      attribute = "greatgrandpup",
       hierarchy = c("mom","pup", "grandpup", "greatgrandpup"),
       fill = "darkblue",
       zoomable = FALSE
