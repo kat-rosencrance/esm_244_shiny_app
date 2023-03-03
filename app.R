@@ -1,4 +1,4 @@
-# Attach necessary packages
+#Attach necessary packages
 library(shiny)
 library(tidyverse)
 library(here)
@@ -10,7 +10,6 @@ library(shinythemes)
 library(shinyWidgets)
 library(plotly)
 library(collapsibleTree)
-library(kableExtra)
 library(DT)
 
 ### READ IN DATA ###
@@ -198,7 +197,7 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                           ), # end sidebarpanel 
              mainPanel("Pup info!",
                        textOutput("pick_mom"),
-                       DT::dataTableOutput("test_table")
+                       DT::dataTableOutput("data_table_reactive")
                        
              ) #end mainpanel
            ) # end sidebar layout
@@ -285,17 +284,17 @@ output$seal_obs_plot <- renderPlot({
 
 ### FOURTH TAB ###
 data_table_reactive <- reactive({
-  message("i am in data_table_reactive and I seem to be working")
+  message("I am in data_table_reactive and I seem to be working")
   seal_fifth_widget <- 
     pup_table_data %>%
-    filter(mother_tag_name %in% input$pick_mom)
-  })
+    filter(mother_tag_name %in% input$pick_mom, mom_scars_natural_marks %in% input$pick_mom, expected_pupping_date_2022 %in% input$pick_mom, pup_first_observed %in% input$pick_mom, pup_weaned %in% input$pick_mom, pup_tags %in% input$pick_mom)
+    
+ })
   
-output$pick_mom <- DT::renderDataTable({
+output$pick_mom <- renderDataTable({
   data_table_reactive()
 })
   
-
 } # end server
 
 # Combine them into an app:
