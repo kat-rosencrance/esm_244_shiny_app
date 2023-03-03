@@ -107,7 +107,7 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                               
                                      
             ### SECOND TAB - GENEALOGY ###
-           tabPanel("Genealogy Tree", fluid = TRUE, icon = icon("water"),
+           tabPanel("Genealogy Tree", fluid = TRUE, icon = icon("tree"),
                       mainPanel(          
                       ##trying gene stuff
                       selectInput(inputId = "selectedmom",
@@ -262,7 +262,7 @@ output$beach_map <- renderLeaflet({
     addMarkers(~x, ~y, popup = ~tag_number, label = ~tag_number)
 })
 
-### THIRD TAB ### - we are making a reactive plot
+### REACTIVE PLOT TAB ### - we are making a reactive plot
 seal_obs_reactive <- reactive({
   message("i am in seal_obs_reactive and I seem to be working")
   seal_third_widget <- 
@@ -282,7 +282,7 @@ output$seal_obs_plot <- renderPlot({
   })
 
 
-### FOURTH TAB ###
+### REACTIVE TABLE TAB ###
 data_table_reactive <- reactive({
   message("I am in data_table_reactive and I seem to be working")
   seal_fifth_widget <- 
