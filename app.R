@@ -28,11 +28,9 @@ seal_obs <- read_csv(here("data", "seal_observations.csv")) %>%
 
 # Genealogy
 # used the data from the left of the original genealogy sheet. May be able to use this one for the mom and pup widget
-genes <- read_csv(here("data", "genealogy_fix_kr.csv")) %>% 
-  clean_names() %>% 
-  drop_na()
+gene_df_new <- read_csv(here("data", "gene_updated_tidy_kat.csv")) 
 
-moms_gene <- sort(as.character(unique(genes[,c("mom")])))
+moms_gene <- sort(as.character(unique(gene_df_new[,c("mom")])))
 #moms_gene
 
 ##gene test data (will be deleted)
@@ -113,7 +111,7 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                       ##trying gene stuff
                       selectInput(inputId = "selectedmom",
                                   label = "Select a Mom",
-                                  choices = unique(gene_test_df$mom)),
+                                  choices = unique(gene_df_new$mom)),
                       collapsibleTreeOutput('tree', height='700px')
                       ) # end mainpanel
                     ) # end sidebar layout
@@ -233,19 +231,22 @@ server <- function(input, output) {
 ### GENEALOGY TEST###
   # collapsible tree
 
-  puptree <- reactive(gene_test_df[gene_test_df$mom==input$selectedmom,
-                                  c("mom", "pup", "puppup")])
+  puptree <- reactive(gene_df_new[gene_df_new$mom==input$selectedmom,
+                                  c("mom", "pup", "grandpup", "greatgrandpup")])
   
   output$tree <- renderCollapsibleTree(
     collapsibleTree(
       puptree(),
       root = input$selectedmom,
-      attribute = "puppup",
-      hierarchy = c("mom","pup", "puppup"),
+      attribute = "greatgrandpup",
+      hierarchy = c("mom","pup", "grandpup", "greatgrandpup"),
       fill = "darkblue",
       zoomable = FALSE
     )
   )
+  
+  
+  
  ### LOCATION TAB### 
 seal_reactive <- reactive({
   seal_obs %>%
