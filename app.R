@@ -192,14 +192,14 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                             inputId = "pick_mom",
                             label = "Select a Mom",
                             choices = unique(pup_data$mother_tag_name),
-                            selected = c("None Selected" = ""),
+                            selected = c("RN20"),
                             inline = TRUE,
                             width = '400px')
                           ), # end sidebarpanel 
              mainPanel("Pup info!",
                        textOutput("pick_mom"),
-                       DT::dataTableOutput("test_table"),
-                       plotOutput("test_plot")
+                       DT::dataTableOutput("test_table")
+                       
              ) #end mainpanel
            ) # end sidebar layout
            ) # end tabpanel
@@ -284,17 +284,17 @@ output$seal_obs_plot <- renderPlot({
 
 
 ### FOURTH TAB ###
-output$pick_mom <- DT::renderDataTable({
-  pup_table_data
-})
-
-output$test_plot <- renderPlot({
-  s <- input$test_table_rows_selected
+data_table_reactive <- reactive({
+  message("i am in data_table_reactive and I seem to be working")
+  seal_fifth_widget <- 
+    pup_table_data %>%
+    filter(mother_tag_name %in% input$pick_mom)
+  })
   
-  if (!is.null(s)) {
-    plot(pup_table_data[s, "disp"])
-  }
+output$pick_mom <- DT::renderDataTable({
+  data_table_reactive()
 })
+  
 
 } # end server
 
