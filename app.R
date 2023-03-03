@@ -10,6 +10,8 @@ library(shinythemes)
 library(shinyWidgets)
 library(plotly)
 library(collapsibleTree)
+library(kableExtra)
+library(DT)
 
 ### READ IN DATA ###
 
@@ -47,6 +49,9 @@ pup_data <- read_csv(here("data", "pup_data.csv")) %>%
 
   colnames(pup_data)[1] <- "mother_tag_name"
 
+  pup_table_data <- pup_data %>%
+    select(mother_tag_name, mom_scars_natural_marks, expected_pupping_date_2022, pup_first_observed, pup_weaned, pup_tags) %>%
+    drop_na()
 # view(pup_data)
 # colnames(pup_data)
   
@@ -192,7 +197,9 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                             width = '400px')
                           ), # end sidebarpanel 
              mainPanel("Pup info!",
-                       textOutput("pick_mom")
+                       textOutput("pick_mom"),
+                       DT::dataTableOutput("test_table"),
+                       plotOutput("test_plot")
              ) #end mainpanel
            ) # end sidebar layout
            ) # end tabpanel
@@ -277,11 +284,17 @@ output$seal_obs_plot <- renderPlot({
 
 
 ### FOURTH TAB ###
-output$pick_mom <- renderText({
-  paste("You chose", input$pick_mom)
-  
+output$pick_mom <- DT::renderDataTable({
+  pup_table_data
 })
 
+output$test_plot <- renderPlot({
+  s <- input$test_table_rows_selected
+  
+  if (!is.null(s)) {
+    plot(pup_table_data[s, "disp"])
+  }
+})
 
 } # end server
 
