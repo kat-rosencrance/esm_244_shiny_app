@@ -285,12 +285,12 @@ output$seal_obs_plot <- renderPlot({
 ### FOURTH TAB ###
 data_table_reactive <- reactive({
   message("I am in data_table_reactive and I seem to be working")
-  
   seal_fifth_widget <- 
     pup_table_data %>%
-    filter(mother_tag_name %in% input$pick_mom, mom_scars_natural_marks %in% input$pick_mom, expected_pupping_date_2022 %in% input$pick_mom, pup_first_observed %in% input$pick_mom, pup_weaned %in% input$pick_mom, pup_tags %in% input$pick_mom)
+    filter(mother_tag_name %in% input$pick_mom)
   })
   
+
 output$pick_mom <- renderDataTable({
   data_table_reactive()
 })
