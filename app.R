@@ -287,7 +287,7 @@ data_table_reactive <- reactive({
   message("I am in data_table_reactive and I seem to be working")
   seal_fifth_widget <- 
     pup_table_data %>%
-    filter(mother_tag_name == input$pick_mom)
+    filter(mother_tag_name == 'input$pick_mom')
   })
   
 
