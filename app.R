@@ -190,14 +190,14 @@ It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCS
                           radioButtons(
                             inputId = "pick_mom",
                             label = "Select a Mom",
-                            choices = unique(pup_data$mother_tag_name),
+                            choices = unique(pup_table_data$mother_tag_name),
                             selected = c("RN20"),
                             inline = TRUE,
                             width = '400px')
                           ), # end sidebarpanel 
              mainPanel("Pup info!",
                        textOutput("pick_mom"),
-                       DT::dataTableOutput("pick_mom")
+                       tableOutput("pick_mom")
                        
              ) #end mainpanel
            ) # end sidebar layout
@@ -284,16 +284,12 @@ output$seal_obs_plot <- renderPlot({
 
 ### REACTIVE TABLE TAB ###
 data_table_reactive <- reactive({
-  message("I am in data_table_reactive and I seem to be working")
-  seal_fifth_widget <- 
     pup_table_data %>%
     filter(mother_tag_name == 'input$pick_mom')
   })
   
 
-output$pick_mom <- renderDataTable({
-  data_table_reactive()
-})
+output$pick_mom <- renderTable({data_table_reactive()})
   
 } # end server
 
