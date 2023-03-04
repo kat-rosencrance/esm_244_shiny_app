@@ -10,7 +10,7 @@ library(shinythemes)
 library(shinyWidgets)
 library(plotly)
 library(collapsibleTree)
-library(kableExtra)
+library(DT)
 
 ### READ IN DATA ###
 
@@ -195,9 +195,8 @@ tabPanel("Moms and Pups",
                           width = '400px')
            ), # end sidebarpanel 
            mainPanel("Pup info!",
-                     tableOutput("pick_mom")
-                     #textOutput("pick_mom"),
-                    # DT::dataTableOutput("data_table")
+                     #tableOutput("pick_mom")
+                    DT::dataTableOutput("pick_mom")
            ) #end mainpanel
          ) # end sidebar layout
 ) # end tabpanel
@@ -282,17 +281,17 @@ server <- function(input, output) {
   
   
   ### FOURTH TAB ###
-  #data_table_reactive <- reactive({
-   # message("I am in data_table_reactive and I seem to be working")
-    #seal_fifth_widget <-
-      #pup_table_data %>%
-     # filter(mother_tag_name %in% 'input$pick_mom')
- # })
+  data_table_reactive <- reactive({
+   message("I am in data_table_reactive and I seem to be working")
+    seal_fifth_widget <-
+  renderTable(pup_table_data) %>%
+     filter(mother_tag_name %in% 'input$pick_mom')
+ })
   
-  output$pick_mom <- renderTable(pup_table_data)
-  #output$pick_mom <- renderDataTable({
-   # pup_table_data
- # })
+  #output$pick_mom <- renderTable(pup_table_data)
+  output$pick_mom <- renderDataTable({
+   pup_table_data
+ })
     
   
   
