@@ -49,7 +49,7 @@ pup_data <- read_csv(here("data", "pup_data.csv")) %>%
   colnames(pup_data)[1] <- "mother_tag_name"
 
   pup_table_data <- pup_data %>%
-    select(mother_tag_name, mom_scars_natural_marks, expected_pupping_date_2022, pup_first_observed, pup_weaned, pup_tags) %>%
+    select(mother_tag_name, expected_pupping_date_2022, pup_first_observed, pup_weaned, pup_tags) %>%
     drop_na()
 # view(pup_data)
 # colnames(pup_data)
@@ -285,11 +285,10 @@ output$seal_obs_plot <- renderPlot({
 ### REACTIVE TABLE TAB ###
 data_table_reactive <- reactive({
   message("I am in data_table_reactive and I seem to be working")
-  seal_fifth_widget <- 
-    pup_table_data %>%
-    filter(mother_tag_name == 'input$pick_mom')
+    seal_fifth_widget <- 
+      pup_table_data %>%
+      filter(mother_tag_name == input$pick_mom)
   })
-  
 
 output$pick_mom <- renderDataTable({
   data_table_reactive()
