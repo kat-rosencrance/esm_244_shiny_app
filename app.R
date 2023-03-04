@@ -190,7 +190,7 @@ tabPanel("Moms and Pups",
                           inputId = "pick_mom",
                           label = "Select a Mom",
                           choices = unique(pup_data$mother_tag_name),
-                          selected = c("None Selected" = ""),
+                          selected = "RN20",
                           inline = TRUE,
                           width = '400px')
            ), # end sidebarpanel 
@@ -285,7 +285,7 @@ server <- function(input, output) {
    message("I am in data_table_reactive and I seem to be working")
     seal_fifth_widget <-
   renderTable(pup_table_data) %>%
-     filter(mother_tag_name %in% 'input$pick_mom')
+     filter(mother_tag_name %in% input$pick_mom)
  })
   
   #output$pick_mom <- renderTable(pup_table_data)
