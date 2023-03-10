@@ -195,7 +195,6 @@ tabPanel("Moms and Pups",
                           width = '400px')
            ), # end sidebarpanel 
            mainPanel("Pup info!",
-                     #tableOutput("pick_mom")
                     DT::dataTableOutput("pick_mom")
            ) #end mainpanel
          ) # end sidebar layout
@@ -283,14 +282,19 @@ server <- function(input, output) {
   ### FOURTH TAB ###
   data_table_reactive <- reactive({
    message("I am in data_table_reactive and I seem to be working")
-    seal_fifth_widget <-
-  renderTable(pup_table_data) %>%
+    seal_fifth_widget <- pup_table_data %>%
      filter(mother_tag_name %in% input$pick_mom)
  })
   
   #output$pick_mom <- renderTable(pup_table_data)
   output$pick_mom <- renderDataTable({
-   pup_table_data
+   datatable(data_table_reactive(), options = list(
+     initComplete = JS(
+       "function(settings, json) {",
+       "$(this.api().table().header()).css({'color': '#fff'});",
+       "}"))) %>%
+      formatStyle(colnames(data_table_reactive()), color = "white")
+      
  })
     
   
