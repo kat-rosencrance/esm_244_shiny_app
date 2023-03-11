@@ -1,0 +1,9 @@
+---
+title: "locations"
+author: "Katherine Rosencrance"
+date: "2023-03-11"
+output: html_document
+---
+
+
+Biological science technicians seasonally conduct surveys in the park to monitor the health and size of the monk seal population. During these surveys, they mark the location of every monk seal observed. Choose a beach in the left side panel to see the exact location where each seal was seen. The numbers that show up when you scroll over each point are the tag numbers of each seal (if they have a tag).

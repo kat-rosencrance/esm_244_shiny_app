@@ -57,7 +57,7 @@ pup_table_data <- pup_data %>%
 ### CREATE THE USER INTERFACE: ###
 ui <- fluidPage(
   
-  navbarPage(theme = shinytheme("darkly"),
+  navbarPage(theme = shinytheme("flatly"),
              header = HTML('<center><img src="park_horizontal.jpg" alt="Kalaupapa National Historic Park" style="display: block; margin-left: auto; margin-right: auto; height: 150px; width: 100% "/></center>'),
              hr(),
              title = "Hawaiian Monk Seals at Kalaupapa National Historical Park",
@@ -82,7 +82,7 @@ ui <- fluidPage(
                                   br(),
                                   includeMarkdown("www/intro_home_page.Rmd"),
                                   br(),
-                                  HTML('<center><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 150px; width:200px;"/></center>'),
+                                  HTML('<center><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
                                   br(),
                                   textOutput("value")
                         )) # end mainpanel
@@ -101,7 +101,7 @@ ui <- fluidPage(
 
 ### SECOND TAB - GENEALOGY ###
 tabPanel("Genealogy Tree", fluid = TRUE, icon = icon("tree"),
-         mainPanel( 
+         mainPanel(h1("Generations of Seals at Kalaupapa National Historical Park"),
            includeMarkdown("www/genealogy.Rmd"),
            ##trying gene stuff
            selectInput(inputId = "selectedmom",
@@ -129,7 +129,8 @@ tabPanel("Locations",fluid = TRUE, icon = icon("globe-americas"),
                                     choices = unique(seal_obs$beach_location_name_from_standardized_list)
                         )
            ), # end sidebar panel
-           mainPanel(h1("Seal Locations!"),
+           mainPanel(h1("Seal Locations"),
+                     includeMarkdown("www/locations.Rmd"),
                      leafletOutput(outputId = "beach_map")
            ) # end mainpanel
          ) # end sidebar layout
@@ -237,7 +238,6 @@ server <- function(input, output) {
       root = input$selectedmom,
       hierarchy = c("mom","pup", "grandpup", "greatgrandpup"),
       fill = "cornflowerblue",
-      color = "red",
       zoomable = FALSE
     )
   )
@@ -292,7 +292,7 @@ server <- function(input, output) {
        "function(settings, json) {",
        "$(this.api().table().header()).css({'color': '#fff'});",
        "}"))) %>%
-      formatStyle(colnames(data_table_reactive()), color = "white")
+      formatStyle(colnames(data_table_reactive()), color = "slategray")
       
  })
     

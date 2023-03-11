@@ -4,7 +4,6 @@ author: "Katherine Rosencrance"
 date: "2023-03-11"
 output: html_document
 ---
-### Generations of Seals at Kalaupapa National Historical Park
 
 The park's first known mother, nicknamed Mama Eve, was first sighted in 1997. Since then, Kalaupapa has had an average of over six seal pups born each year. The pupping average has been increasing and in the last couple of years, from 2018 to 2022, the average was 12 pups a year. These generations of seals highlight the importance of Kalaupapa’s role in the recovery of this endangered species.
 
