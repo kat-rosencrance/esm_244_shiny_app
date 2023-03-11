@@ -11,6 +11,7 @@ library(shinyWidgets)
 library(plotly)
 library(collapsibleTree)
 library(DT)
+library(knitr)
 
 ### READ IN DATA ###
 
@@ -25,6 +26,7 @@ seal_obs <- read_csv(here("data", "seal_observations.csv")) %>%
   select(beach_location_name_from_standardized_list, sex, size, x, y, tag_number) %>% #rename for sanity
   mutate(sex = case_when(is.na(sex) ~ "Sex not detected", 
                          TRUE ~ sex)) %>%
+  mutate(beach_location_name_from_standardized_list = str_to_title(beach_location_name_from_standardized_list)) %>% 
   drop_na()
 
 # Genealogy
@@ -33,12 +35,6 @@ gene_df_new <- read_csv(here("data", "gene_updated_tidy_kat.csv"))
 
 moms_gene <- sort(as.character(unique(gene_df_new[,c("mom")])))
 #moms_gene
-
-##gene test data (will be deleted)
-gene_test_df <- read_csv(here("data", "gene_test_data.csv"))
-mom_gene_test<- sort(as.character(unique(gene_test_df["mom"])))
-
-
 
 # Pup and mom data
 pup_predict <- read_csv(here("data", "pup_predictions.csv")) %>% 
@@ -58,14 +54,13 @@ pup_table_data <- pup_data %>%
 
 
 
-
 ### CREATE THE USER INTERFACE: ###
 ui <- fluidPage(
+  
   navbarPage(theme = shinytheme("darkly"),
-             title = "Hawaiian Monk Seals",
-             
-             
-             
+             header = HTML('<center><img src="park_horizontal.jpg" alt="Kalaupapa National Historic Park" style="display: block; margin-left: auto; margin-right: auto; height: 150px; width: 100% "/></center>'),
+             hr(),
+             title = "Hawaiian Monk Seals at Kalaupapa National Historical Park",
              
              
              
@@ -75,22 +70,21 @@ ui <- fluidPage(
              ###FIRST TAB - HOME PAGE & INTRODUCTION###
              tabPanel("Home", fluid = TRUE, icon = icon("home"),
                       sidebarLayout(
-                        sidebarPanel(HTML('<center><img src="kala_park_pic.PNG" alt="Kalaupapa National Historic Park" style="height: 150px; width:200px;"/></center>'),
-                                     hr(),
+                        sidebarPanel(width = 2,
                                      actionButton("lifecycle", label = "Seal Life Cycle"),
-                                     hr(),
-                                     actionButton("pups", label = "Pups"),
-                                     hr(),
+                                     br(),
+                                     br(),
                                      actionButton("surveys", label = "NPS Surveys"),
-                                     hr(),
-                                     actionButton("genealogy", label = "Genealogy")
+                                     
+                                     
                         ), # end sidebar panel
                         mainPanel(h1("Welcome!"),
-                                  "Hawaiian Monk Seals is an app that lets you visualize Kalaupapa National Historic Park's monk seal survey data .
-From the top navigation panel you'll be able to access graphs displaying seal observation data, observed locations, as well as mother and pup characteristics.
-It has been made with shiny for the course ESM 244 Advanced Data Analysis at UCSB.",
-HTML('<center><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 500px; width:550px;"/></center>'),
-textOutput("value")
+                                  br(),
+                                  includeMarkdown("www/intro_home_page.Rmd"),
+                                  br(),
+                                  HTML('<center><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 150px; width:200px;"/></center>'),
+                                  br(),
+                                  textOutput("value")
                         )) # end mainpanel
              ), 
 ###END FIRST TAB###
@@ -106,8 +100,9 @@ textOutput("value")
 
 
 ### SECOND TAB - GENEALOGY ###
-tabPanel("Genealogy Tree", fluid = TRUE, icon = icon("water"),
-         mainPanel(          
+tabPanel("Genealogy Tree", fluid = TRUE, icon = icon("tree"),
+         mainPanel( 
+           includeMarkdown("www/genealogy.Rmd"),
            ##trying gene stuff
            selectInput(inputId = "selectedmom",
                        label = "Select a Mom",
@@ -148,7 +143,7 @@ tabPanel("Locations",fluid = TRUE, icon = icon("globe-americas"),
 
 
 ### FOURTH TAB - SEAL CHARACTERISTICS ###
-tabPanel("Oberved Seal Characteristics",
+tabPanel("Oberved Seal Characteristics", fluid = TRUE, icon= icon("binoculars"),
          HTML('<center><img src="kala_6.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 580px; width:653px;"/></center>'),
          sidebarLayout(
            sidebarPanel(
@@ -181,7 +176,7 @@ tabPanel("Oberved Seal Characteristics",
 
 
 ### FIFTH TAB - MOMS AND PUPS ###
-tabPanel("Moms and Pups",
+tabPanel("Moms and Pups", fluid = TRUE, icon = icon("heart"),
          
          # sidebar layout
          sidebarLayout(
@@ -214,18 +209,21 @@ tabPanel("Moms and Pups",
 server <- function(input, output) {
   
   ### ABOUT SEALS TAB####
+ 
   observeEvent(input$lifecycle, {
-    output$value <- renderText({"Monk seals spend two-thirds of their life at sea. They’ll molt completely once a year which helps keep their coat clean and free of algae growth. They can live to over 30 years, though life expectancy is often shorter. They can hold their breath for up to 20 minutes and dive more than 1,800 feet! However, an average dive is much shorter and shallower. Though they don’t migrate, they can travel hundreds of miles throughout the Hawaiian archipelago. " })
-  })
-  observeEvent(input$pups, {
-    output$value <- renderText({"Monk seal pups remain with their mothers for the first 5-7 weeks of their lives. During this time, undergo a drastic physical transformation. Pups begin life at sround 25 pounds with a black, fluffy coat. When they are ready to hunt on their own, these pups have gray fur and have grown significantly, usually weighing in around 200 pounds."})
-  })
+    output$value <- renderText({"Monk seals spend two-thirds of their life at sea. They’ll molt completely once a year which helps keep their coat clean and free of algae growth. They can live to over 30 years, though life expectancy is often shorter. They can hold their breath for up to 20 minutes and dive more than 1,800 feet! However, an average dive is much shorter and shallower. Though they don’t migrate, they can travel hundreds of miles throughout the Hawaiian archipelago.
+      Monk seals average around 7 – 7.5 feet long and can weigh an average of 375-450 pounds.
+      The Hawaiian monk seal is endangered, having been hunted almost to extinction in the 19th century, with only about 1,200 individuals at last count in 2016 in their native habitats in the Hawaiian Islands. "})})
+
   observeEvent(input$surveys, {
-    output$value <- renderText({"Survey info"})
+    output$value <- renderText({"At Kalaupapa, we coordinate with NOAA Fisheries to help conserve monk seals. A park marine biologist walks along beaches, spots the seals, takes photographs, and records the data observed.
+      These surveys track when the new pups are born, how much they grow, and when they wean from their moms.
+      Marine biologists look for identifying tags, bleach marks, and scars to tell monk seals apart.
+      Monk seal surveys allow park biologists to respond to seal emergencies, such as injuries and hookings from fishing gear.
+      Surveys also help biologists understand seal monk generations and family patterns.
+      Surveys and photos of monk seals are always conducted under a NOAA Fisheries permit and in partnership with NOAA’s Pacific Islands Fisheries Science Center."})
   })
-  observeEvent(input$genealogy, {
-    output$value <- renderText({"Genealogy info"})
-  })
+
   
   ### GENEALOGY TEST###
   # collapsible tree
@@ -238,7 +236,8 @@ server <- function(input, output) {
       puptree(),
       root = input$selectedmom,
       hierarchy = c("mom","pup", "grandpup", "greatgrandpup"),
-      fill = "darkblue",
+      fill = "cornflowerblue",
+      color = "red",
       zoomable = FALSE
     )
   )

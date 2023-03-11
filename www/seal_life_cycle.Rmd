@@ -1,0 +1,11 @@
+---
+title: "seal_life_cycle"
+author: "Katherine Rosencrance"
+date: "2023-03-11"
+output: html_document
+---
+
+### Seal Life Cycle
+
+
+Monk seals spend two-thirds of their life at sea. They’ll molt completely once a year which helps keep their coat clean and free of algae growth. They can live to over 30 years, though life expectancy is often shorter. They can hold their breath for up to 20 minutes and dive more than 1,800 feet! However, an average dive is much shorter and shallower. Though they don’t migrate, they can travel hundreds of miles throughout the Hawaiian archipelago. 
