@@ -217,7 +217,7 @@ server <- function(input, output) {
       The Hawaiian monk seal is endangered, having been hunted almost to extinction in the 19th century, with only about 1,200 individuals at last count in 2016 in their native habitats in the Hawaiian Islands. "})})
 
   observeEvent(input$surveys, {
-    output$value <- renderText({"At Kalaupapa, we coordinate with NOAA Fisheries to help conserve monk seals. A park marine biologist walks along beaches, spots the seals, takes photographs, and records the data observed.
+    output$value <- renderText({"At Kalaupapa, we coordinate with the National Park Service to help conserve monk seals. A park marine biologist walks along beaches, spots the seals, takes photographs, and records the data observed.
       These surveys track when the new pups are born, how much they grow, and when they wean from their moms.
       Marine biologists look for identifying tags, bleach marks, and scars to tell monk seals apart.
       Monk seal surveys allow park biologists to respond to seal emergencies, such as injuries and hookings from fishing gear.
