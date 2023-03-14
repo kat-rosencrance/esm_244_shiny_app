@@ -269,8 +269,8 @@ server <- function(input, output) {
   output$seal_obs_plot <- renderPlot({
     ggplot(data = seal_obs_reactive(), aes(x = beach_location_name_from_standardized_list, fill = size)) +
       geom_bar(width = 0.5) +
-      scale_fill_manual(values = c('steelblue1', 'slategrey'), drop = FALSE) +
-      labs(x = "Sex",
+      scale_fill_manual(values = c('lightcyan','lightskyblue','darkslategray1','darkslategray3','steelblue3','steelblue4'), drop = FALSE) +
+      labs(x = "Beach",
            y = "Counts") +
       theme_minimal() #change to render plot #fix the ggplot your error is here
   })
