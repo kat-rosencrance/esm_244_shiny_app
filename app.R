@@ -182,16 +182,14 @@ tabPanel("Moms and Pups", fluid = TRUE, icon = icon("heart"),
          # sidebar layout
          sidebarLayout(
            sidebarPanel("Select a mom to see data about her pups!",
-                        radioButtons(
-                          inputId = "pick_mom",
-                          label = "Select a Mom",
-                          choices = unique(pup_data$mother_tag_name),
-                          selected = "RN20",
-                          inline = TRUE,
-                          width = '400px')
+                        prettyCheckboxGroup(
+                          "pick_mom",
+                          label = h4("Select a Mom"),
+                          choices = unique(pup_table_data$mother_tag_name),
+                          selected = unique(pup_table_data$mother_tag_name)[1])
            ), # end sidebarpanel 
            mainPanel("Pup info!",
-                    DT::dataTableOutput("pick_mom")
+                     DT::dataTableOutput("pick_mom")
            ) #end mainpanel
          ) # end sidebar layout
 ) # end tabpanel
@@ -287,10 +285,12 @@ server <- function(input, output) {
   
   #output$pick_mom <- renderTable(pup_table_data)
   output$pick_mom <- renderDataTable({
-   datatable(data_table_reactive(), options = list(
+   datatable(data_table_reactive(), colnames = c('Mother Tag Name', 'Pup Tag Name(s)', 'Expected Pupping Date', 'Pup First Observed'),
+             rownames = FALSE,
+             options = list(
      initComplete = JS(
        "function(settings, json) {",
-       "$(this.api().table().header()).css({'color': '#fff'});",
+       "$(this.api().table().header()).css({'background-color': 'blue', 'color': 'white'});",
        "}"))) %>%
       formatStyle(colnames(data_table_reactive()), color = "slategray")
       
