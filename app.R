@@ -101,7 +101,9 @@ ui <- fluidPage(
                         mainPanel(h1("Welcome!"),
                                   br(),
                                   br(),
-                                  HTML('<center><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
+                                  HTML('<left><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
+                                  HTML('<center><img src="kala_6.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
+                                  HTML('<right><img src="kala_1.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
                                   br(),
                                   htmlOutput("value")
                         )) # end mainpanel
