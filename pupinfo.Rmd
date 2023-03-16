@@ -1,0 +1,14 @@
+---
+title: "pup info"
+author: "Katherine Rosencrance"
+date: "2023-03-16"
+output: html_document
+---
+
+Newborn monk seal pups are born black, while weaned pups and older seals are dark gray to brown on their back and light gray to yellowish brown on their belly.
+
+Monk seals undergo a "catastrophic molt" about once per year, where they shed the top layer of their skin and fur (similar to elephant seals). Seals that spend a long time at sea foraging can grow algae on their fur. Those that look green haven't molted recently and may be getting ready to shed into a new silvery coat.
+
+Most Hawaiian monk seals have unique natural markings, such as scars or natural bleach marks (white spots), on their fur which help identify them. Personnel authorized by NOAA Fisheries often apply  identification tags to their rear flippers. Tagging and tracking used in combination with identification of unique markings enable long-term monitoring of individuals.
+
+Male and female monk seals are similar in size. The only way to confirm whether a seal is female or male is by looking at its belly.

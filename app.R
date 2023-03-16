@@ -95,19 +95,23 @@ ui <- fluidPage(
                                      br(),
                                      br(),
                                      actionButton("surveys", label = "NPS Surveys"),
-                                     
-                                     
+
+
                         ), # end sidebar panel
                         mainPanel(h1("Welcome!"),
+                                  "Explore our Hawaiian Monk Seal app starting with the panel to the left.",
                                   br(),
                                   br(),
-                                  HTML('<left><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></left>'),
-                                  HTML('<center><img src="kala_6.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
-                                  HTML('<right><img src="kala_1.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></right>'),
+                                  HTML('<center><img src="kala_2.jpeg" alt="Two seals on the beach" style="height: 200px; width:250px;"/></center>'),
                                   br(),
-                                  htmlOutput("value")
-                        )) # end mainpanel
-             ), 
+                                  htmlOutput("value"),
+                                  br(),
+                                  br(),
+                                  br()
+                        ) #end main panel
+                        ) # end sidebar layout
+                      ) # end tab 
+             , 
 ###END FIRST TAB###
 
 
@@ -128,9 +132,13 @@ tabPanel("Genealogy Tree", fluid = TRUE, icon = icon("tree"),
            selectInput(inputId = "selectedmom",
                        label = "Select a Mom",
                        choices = unique(gene_df_new$mom)),
-           collapsibleTreeOutput('tree', height='700px')
+           collapsibleTreeOutput('tree', height='700px'),
+           br(),
+           br(),
+           br(),
+           br()
          ) # end mainpanel
-), 
+), # end tab
 ### END SECOND TAB ###
 
 
@@ -152,10 +160,14 @@ tabPanel("Locations",fluid = TRUE, icon = icon("globe-americas"),
            ), # end sidebar panel
            mainPanel(h1("Seal Locations"),
                      includeMarkdown("www/locations.Rmd"),
-                     leafletOutput(outputId = "beach_map")
+                     leafletOutput(outputId = "beach_map"),
+                     br(),
+                     br(),
+                     br(),
+                     br()
            ) # end mainpanel
          ) # end sidebar layout
-),
+), # end tab
 ### END THIRD TAB ###
 
 
@@ -165,7 +177,7 @@ tabPanel("Locations",fluid = TRUE, icon = icon("globe-americas"),
 
 
 ### FOURTH TAB - SEAL CHARACTERISTICS ###
-tabPanel("Oberved Seal Characteristics", fluid = TRUE, icon= icon("binoculars"),
+tabPanel("Observed Seal Characteristics", fluid = TRUE, icon= icon("binoculars"),
          sidebarLayout(
            sidebarPanel(
              prettyCheckboxGroup(
@@ -186,10 +198,14 @@ tabPanel("Oberved Seal Characteristics", fluid = TRUE, icon= icon("binoculars"),
            ),
            mainPanel(h1("Plot Seal Characteristics"),
                      includeMarkdown("characteristics.Rmd"),
-             plotOutput(outputId = "seal_obs_plot")
-           )# end sidebar panel
+             plotOutput(outputId = "seal_obs_plot"),
+             br(),
+             br(),
+             br(),
+             br()
+           )# end main panel panel
          ) # end sidebar layout
-), 
+), # end tab 
 ### END FOURTH TAB###
 
 
@@ -209,8 +225,13 @@ tabPanel("Moms and Pups", fluid = TRUE, icon = icon("heart"),
                           choices = unique(pup_table_data$mother_tag_name),
                           selected = unique(pup_table_data$mother_tag_name)[1])
            ), # end sidebarpanel 
-           mainPanel("Pup info!",
-                     DT::dataTableOutput("pick_mom")
+           mainPanel(h1("Pup info!"),
+                        includeMarkdown("pupinfo.Rmd"),
+                     DT::dataTableOutput("pick_mom"),
+                     br(),
+                     br(),
+                     br(),
+                     br()
            ) #end mainpanel
          ) # end sidebar layout
 ) # end tabpanel
@@ -231,18 +252,25 @@ server <- function(input, output) {
   ### ABOUT SEALS TAB####
   
  observeEvent(input$aboutapp, {
-   output$value <- renderText({HTML("<em>Hawaiian Monk Seals at Kalaupapa National Historical Park</em> is an app that lets you visualize Kalaupapa National Historic Park's monk seal survey data.
+   output$value <- renderText({HTML("<center><img src='kala_6.jpeg' alt='Mother and offspring monk seal on the beach' style='height: 200px; width:250px'> <br> <font size='+2'>About This App</font> <br> <em>Hawaiian Monk Seals at Kalaupapa National Historical Park</em> is an app that lets you visualize <a href='https://www.nps.gov/kala/learn/nature/monkseal.htm'>Kalaupapa National Historic Park's</a> monk seal survey data.
      From the top navigation panel you'll be able to access a seal genealogy tree, observed seal locations, graphs displaying seal observation data, as well as mother and pup characteristics.
      Additionally, using the side panel to the left, you can dive into the life history of this special marine species. <br> <br>
+     <font size='+2'>Creators and Data Source</font> <br>
      This app was created by Katherine Rosencrance, Annie Combs, and Alessandra Puig-Santana for the course ESM 244 - Advanced Data Analysis at the University of Santa Barbara.
      Data were obtained from Glauco Puig-Santana, a biological technician working at Kalaupapa National Historical Park.
      The data are not publicly available, but the original data files contained seal and pup observations dating back to 2021 and genealogy data beginning in 1997.
-     The side panel tab 'NPS Surveys' details the data collection methods used for the data included in this app. Enjoy!")
+     The side panel tab 'NPS Surveys' details the data collection methods used for the data included in this app. Enjoy!
+     <br>
+     <br>
+     <br>
+     <br>
+     <br>
+     <b>Data Citation:</b> National Park Service. (2022, December 22). Hawaiian Monk Seal. https://www.nps.gov/kala/learn/nature/monkseal.htm")
    })
  })
   
   observeEvent(input$lifecycle, {
-    output$value <- renderText({HTML("Monk seals spend two-thirds of their life at sea.
+    output$value <- renderText({HTML("<center><img src='kala_1.jpeg' alt='Mother and offspring monk seal on the beach' style='height: 200px; width:250px'> <br><font size='+2'>Seal Life Cycle</font> <br> Monk seals spend two-thirds of their life at sea.
       They’ll molt completely once a year which helps keep their coat clean and free of algae growth.
       They can live to over 30 years, though life expectancy is often shorter. 
       They can hold their breath for up to 20 minutes and dive more than 1,800 feet!
@@ -253,7 +281,7 @@ server <- function(input, output) {
       The Hawaiian monk seal is endangered, having been hunted almost to extinction in the 19th century, with only about 1,200 individuals at last count in 2016 in their native habitats in the Hawaiian Islands.")})})
 
   observeEvent(input$surveys, {
-    output$value <- renderText({HTML("At Kalaupapa, we coordinate with the National Park Service to help conserve monk seals. A park marine biologist walks along beaches, spots the seals, takes photographs, and records the data observed.
+    output$value <- renderText({HTML("<center><img src='kala_7.jpeg' alt='Seal with bleach marking on back' style='height: 200px; width:250px'> <br><font size='+2'>NPS Surveys</font> <br>At Kalaupapa, we coordinate with the National Park Service to help conserve monk seals. A park marine biologist walks along beaches, spots the seals, takes photographs, and records the data observed.
       These surveys track when the new pups are born, how much they grow, and when they wean from their moms.
       Marine biologists look for identifying tags, bleach marks, and scars to tell monk seals apart.
       Monk seal surveys allow park biologists to respond to seal emergencies, such as injuries and hookings from fishing gear.
