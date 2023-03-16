@@ -71,6 +71,9 @@ ui <- fluidPage(
              tabPanel("Home", fluid = TRUE, icon = icon("home"),
                       sidebarLayout(
                         sidebarPanel(width = 2,
+                                     actionButton("aboutapp", label = "About the App"),
+                                     br(),
+                                     br(),
                                      actionButton("lifecycle", label = "Seal Life Cycle"),
                                      br(),
                                      br(),
@@ -80,11 +83,10 @@ ui <- fluidPage(
                         ), # end sidebar panel
                         mainPanel(h1("Welcome!"),
                                   br(),
-                                  includeMarkdown("www/intro_home_page.Rmd"),
                                   br(),
                                   HTML('<center><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
                                   br(),
-                                  textOutput("value")
+                                  htmlOutput("value")
                         )) # end mainpanel
              ), 
 ###END FIRST TAB###
@@ -208,19 +210,36 @@ tabPanel("Moms and Pups", fluid = TRUE, icon = icon("heart"),
 server <- function(input, output) {
   
   ### ABOUT SEALS TAB####
- 
+  
+ observeEvent(input$aboutapp, {
+   output$value <- renderText({HTML("<em>Hawaiian Monk Seals at Kalaupapa National Historical Park</em> is an app that lets you visualize Kalaupapa National Historic Park's monk seal survey data.
+     From the top navigation panel you'll be able to access a seal genealogy tree, observed seal locations, graphs displaying seal observation data, as well as mother and pup characteristics.
+     Additionally, using the side panel to the left, you can dive into the life history of this special marine species. <br> <br>
+     This app was created by Katherine Rosencrance, Annie Combs, and Alessandra Puig-Santana for the course ESM 244 - Advanced Data Analysis at the University of Santa Barbara.
+     Data were obtained from Glauco Puig-Santana, a biological technician working at Kalaupapa National Historical Park.
+     The data are not publicly available, but the original data files contained seal and pup observations dating back to 2021 and genealogy data beginning in 1997.
+     The side panel tab 'NPS Surveys' details the data collection methods used for the data included in this app. Enjoy!")
+   })
+ })
+  
   observeEvent(input$lifecycle, {
-    output$value <- renderText({"Monk seals spend two-thirds of their life at sea. They’ll molt completely once a year which helps keep their coat clean and free of algae growth. They can live to over 30 years, though life expectancy is often shorter. They can hold their breath for up to 20 minutes and dive more than 1,800 feet! However, an average dive is much shorter and shallower. Though they don’t migrate, they can travel hundreds of miles throughout the Hawaiian archipelago.
+    output$value <- renderText({HTML("Monk seals spend two-thirds of their life at sea.
+      They’ll molt completely once a year which helps keep their coat clean and free of algae growth.
+      They can live to over 30 years, though life expectancy is often shorter. 
+      They can hold their breath for up to 20 minutes and dive more than 1,800 feet!
+      However, an average dive is much shorter and shallower.
+      Though they don’t migrate, they can travel hundreds of miles throughout the Hawaiian archipelago.
+      
       Monk seals average around 7 – 7.5 feet long and can weigh an average of 375-450 pounds.
-      The Hawaiian monk seal is endangered, having been hunted almost to extinction in the 19th century, with only about 1,200 individuals at last count in 2016 in their native habitats in the Hawaiian Islands. "})})
+      The Hawaiian monk seal is endangered, having been hunted almost to extinction in the 19th century, with only about 1,200 individuals at last count in 2016 in their native habitats in the Hawaiian Islands.")})})
 
   observeEvent(input$surveys, {
-    output$value <- renderText({"At Kalaupapa, we coordinate with the National Park Service to help conserve monk seals. A park marine biologist walks along beaches, spots the seals, takes photographs, and records the data observed.
+    output$value <- renderText({HTML("At Kalaupapa, we coordinate with the National Park Service to help conserve monk seals. A park marine biologist walks along beaches, spots the seals, takes photographs, and records the data observed.
       These surveys track when the new pups are born, how much they grow, and when they wean from their moms.
       Marine biologists look for identifying tags, bleach marks, and scars to tell monk seals apart.
       Monk seal surveys allow park biologists to respond to seal emergencies, such as injuries and hookings from fishing gear.
       Surveys also help biologists understand seal monk generations and family patterns.
-      Surveys and photos of monk seals are always conducted under a NOAA Fisheries permit and in partnership with NOAA’s Pacific Islands Fisheries Science Center."})
+      Surveys and photos of monk seals are always conducted under a NOAA Fisheries permit and in partnership with NOAA’s Pacific Islands Fisheries Science Center.")})
   })
 
   
