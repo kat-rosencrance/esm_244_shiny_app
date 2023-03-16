@@ -5,6 +5,6 @@ date: "2023-03-11"
 output: html_document
 ---
 
-The park's first known mother, nicknamed Mama Eve, was first sighted in 1997. Since then, Kalaupapa has had an average of over six seal pups born each year. The pupping average has been increasing and in the last couple of years, from 2018 to 2022, the average was 12 pups a year. These generations of seals highlight the importance of Kalaupapa’s role in the recovery of this endangered species.
+In 1997, Kalaupapa was home to the park's first known seal mother, dubbed Mama Eve. Since then, the number of pups born each year has steadily grown, reaching an average of 12 pups annually from 2018 to 2022. These successive generations of seals demonstrate the critical role Kalaupapa plays in helping this endangered species recover.
 
 This family tree, when fully extended, displays the tag numbers of mothers and pups of four different generations at the park. The drop down menu has all of the original mothers, and the tree that pops up shows her pups, their pups, and so on. The blue dots represent seals that have pups, while the white dots represent pups that have not produced offspring. Click the blue dots to explore the generations of monk seals in Hawaii!
