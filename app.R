@@ -24,12 +24,12 @@ seal_obs <- read_csv(here("data", "seal_observations.csv")) %>%
                          TRUE ~ sex)) %>%
   mutate(beach_location_name_from_standardized_list = str_to_title(beach_location_name_from_standardized_list)) %>% 
   drop_na() %>%
-  rename("Adult" = "A",
-         "Nursing Pup" = "N",
-         "Weaned Pup" = "W",
-         "Juvenile" = "J",
-         "Subadult" = "S",
-         "Unknown" = "U")
+  mutate(case_when(size == "A" ~ "Adult",
+                   size == "U" ~ "Unknow",
+                   size == "N" ~ "Nursing Pup",
+                   size == "W" ~ "Weaned Pup",
+                   size == "J" ~ "Juvenile",
+                   size == "S" ~ "Subadult"))
 
 
 # Pup and mom data
