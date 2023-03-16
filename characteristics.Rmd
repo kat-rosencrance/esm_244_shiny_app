@@ -6,3 +6,5 @@ output: html_document
 ---
 
 In this widget, you can find the counts of seal observations that have occured on each beach location. It is a reactive bar plot that will change as you toggle through the gender, beach location, and monk seal size.
+
+![Hawaiian Monk seal being tagged](www/kala_3.jpeg)
