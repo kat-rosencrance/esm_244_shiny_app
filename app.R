@@ -27,7 +27,24 @@ seal_obs <- read_csv(here("data", "seal_observations.csv")) %>%
   mutate(sex = case_when(is.na(sex) ~ "Sex not detected", 
                          TRUE ~ sex)) %>%
   mutate(beach_location_name_from_standardized_list = str_to_title(beach_location_name_from_standardized_list)) %>% 
-  drop_na()
+  drop_na() %>%
+  mutate(size = case_when(size == "A" ~ "Adult",
+                   size == "U" ~ "Unknow",
+                   size == "N" ~ "Nursing Pup",
+                   size == "W" ~ "Weaned Pup",
+                   size == "J" ~ "Juvenile",
+                   size == "S" ~ "Subadult",
+                   size == "U" ~ "Unknow",
+                   size == "N" ~ "Nursing Pup",
+                   size == "W" ~ "Weaned Pup",
+                   size == "J" ~ "Juvenile",
+                   size == "S" ~ "Subadult")) %>%
+  mutate(beach_location_name_from_standardized_list = case_when(beach_location_name_from_standardized_list == "Kahikilo (Carpenters) Beach, Kalaupapa" ~ "Kahikilo Beach", TRUE ~ beach_location_name_from_standardized_list)) %>%
+  mutate(sex = case_when(sex == "F" ~ "Female",
+                         sex == "M" ~ "Male",
+                         sex == "U" ~ "Unknown",
+                         sex == "Sex not detected" ~ "Unknown"))
+
 
 # Genealogy
 # used the data from the left of the original genealogy sheet. May be able to use this one for the mom and pup widget
@@ -147,7 +164,7 @@ tabPanel("Locations",fluid = TRUE, icon = icon("globe-americas"),
 
 ### FOURTH TAB - SEAL CHARACTERISTICS ###
 tabPanel("Oberved Seal Characteristics", fluid = TRUE, icon= icon("binoculars"),
-         HTML('<center><img src="kala_6.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 580px; width:653px;"/></center>'),
+         HTML('<center><img src="kala_6.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
          sidebarLayout(
            sidebarPanel(
              prettyCheckboxGroup(
@@ -277,7 +294,6 @@ server <- function(input, output) {
   
   ### THIRD TAB ### - we are making a reactive plot
   seal_obs_reactive <- reactive({
-    message("i am in seal_obs_reactive and I seem to be working")
     seal_third_widget <- 
       seal_obs %>%
       filter(sex %in% input$selectsex,
@@ -288,7 +304,7 @@ server <- function(input, output) {
   output$seal_obs_plot <- renderPlot({
     ggplot(data = seal_obs_reactive(), aes(x = beach_location_name_from_standardized_list, fill = size)) +
       geom_bar(width = 0.5) +
-      scale_fill_manual(values = c('lightcyan','lightskyblue','darkslategray1','darkslategray3','steelblue3','steelblue4'), drop = FALSE) +
+      scale_fill_manual(values = c("deepskyblue4","cornflowerblue","deepskyblue1",'darkslategray3',"cadetblue1","honeydew2"), drop = FALSE) +
       labs(x = "Beach",
            y = "Counts") +
       theme_minimal() #change to render plot #fix the ggplot your error is here
