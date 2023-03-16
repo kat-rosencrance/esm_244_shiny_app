@@ -290,7 +290,7 @@ server <- function(input, output) {
              options = list(
      initComplete = JS(
        "function(settings, json) {",
-       "$(this.api().table().header()).css({'background-color': 'blue', 'color': 'white'});",
+       "$(this.api().table().header()).css({'background-color': 'cornflowerblue', 'color': 'white'});",
        "}"))) %>%
       formatStyle(colnames(data_table_reactive()), color = "slategray")
       
