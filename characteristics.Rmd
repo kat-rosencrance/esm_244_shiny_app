@@ -1,0 +1,8 @@
+---
+title: "characteristics"
+author: "Alessandra Puig-Santana"
+date: "2023-03-16"
+output: html_document
+---
+
+In this widget, you can find the counts of seal observations that have occured on each beach location. It is a reactive bar plot that will change as you toggle through the gender, beach location, and monk seal size.
