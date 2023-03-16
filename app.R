@@ -101,9 +101,9 @@ ui <- fluidPage(
                         mainPanel(h1("Welcome!"),
                                   br(),
                                   br(),
-                                  HTML('<left><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
+                                  HTML('<left><img src="kala_2.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></left>'),
                                   HTML('<center><img src="kala_6.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
-                                  HTML('<right><img src="kala_1.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
+                                  HTML('<right><img src="kala_1.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></right>'),
                                   br(),
                                   htmlOutput("value")
                         )) # end mainpanel
@@ -166,7 +166,6 @@ tabPanel("Locations",fluid = TRUE, icon = icon("globe-americas"),
 
 ### FOURTH TAB - SEAL CHARACTERISTICS ###
 tabPanel("Oberved Seal Characteristics", fluid = TRUE, icon= icon("binoculars"),
-         HTML('<center><img src="kala_6.jpeg" alt="Mother and offspring monk seal on the beach" style="height: 200px; width:250px;"/></center>'),
          sidebarLayout(
            sidebarPanel(
              prettyCheckboxGroup(
