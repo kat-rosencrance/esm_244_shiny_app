@@ -288,9 +288,13 @@ server <- function(input, output) {
      <br>
      <br>
      <br>
-     <b>Citations:</b> National Park Service. (2022, December 22). Hawaiian Monk Seal. https://www.nps.gov/kala/learn/nature/monkseal.htm <br>
+     <b>Citations:</b> National Park Service. (2022, December 22). Hawaiian Monk Seal. https://www.nps.gov/kala/learn/nature/monkseal.htm
+     <br>
        <br>
-       NOAA Fisheries. (2022, September 15). Hawaiian Monk Seal. https://www.fisheries.noaa.gov/species/hawaiian-monk-seal")
+       NOAA Fisheries. (2022, September 15). Hawaiian Monk Seal. https://www.fisheries.noaa.gov/species/hawaiian-monk-seal
+     <br>
+     <br>
+     All Photos Credited to Glauco Puig-Santana, NPS Biological Science Technician")
    })
  })
   
