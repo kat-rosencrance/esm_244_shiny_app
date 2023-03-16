@@ -181,7 +181,7 @@ tabPanel("Moms and Pups", fluid = TRUE, icon = icon("heart"),
          
          # sidebar layout
          sidebarLayout(
-           sidebarPanel("Select a mom to see data about her pups!",
+           sidebarPanel("Select a mom to see data about her pups! This data was collected through surveys completed by the National Parks Service. You can read more about the survey data on the home page.",
                         prettyCheckboxGroup(
                           "pick_mom",
                           label = h4("Select a Mom"),
