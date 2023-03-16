@@ -183,7 +183,8 @@ tabPanel("Oberved Seal Characteristics", fluid = TRUE, icon= icon("binoculars"),
                choices = unique(seal_obs$size),
                selected = unique(seal_obs$size)[1])
            ),
-           mainPanel(
+           mainPanel(h1("Plot Seal Characteristics"),
+                     includeMarkdown("characteristics.Rmd"),
              plotOutput(outputId = "seal_obs_plot")
            )# end sidebar panel
          ) # end sidebar layout
