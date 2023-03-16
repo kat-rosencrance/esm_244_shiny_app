@@ -18,10 +18,18 @@ usaZoom <- 3
 
 # Seal observations
 seal_obs <- read_csv(here("data", "seal_observations.csv")) %>% 
-  clean_names()
-
-
-
+  clean_names() %>%
+  select(beach_location_name_from_standardized_list, sex, size, x, y, tag_number) %>% #rename for sanity
+  mutate(sex = case_when(is.na(sex) ~ "Sex not detected", 
+                         TRUE ~ sex)) %>%
+  mutate(beach_location_name_from_standardized_list = str_to_title(beach_location_name_from_standardized_list)) %>% 
+  drop_na() %>%
+  rename("Adult" = "A",
+         "Nursing Pup" = "N",
+         "Weaned Pup" = "W",
+         "Juvenile" = "J",
+         "Subadult" = "S",
+         "Unknown" = "U")
 
 
 # Pup and mom data
