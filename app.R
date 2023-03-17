@@ -12,6 +12,7 @@ library(plotly)
 library(collapsibleTree)
 library(DT)
 library(knitr)
+library(rsconnect)
 
 ### READ IN DATA ###
 
